@@ -3,19 +3,17 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# Загружаем переменные из локального файла .env (если он существует на компьютере)
+# Загружаем переменные из локального файла .env
 load_dotenv()
 
-# Чтение ключа (сработает локально через .env и в облаке через Secrets)
+# Чтение ключа (для ПК и для облака Streamlit)
 api_key = os.environ.get("RAPIDAPI_KEY") or st.secrets.get("RAPIDAPI_KEY")
 
 st.set_page_config(page_title="Калькулятор цен США", layout="centered")
-# ... дальше идет весь остальной ваш код без изменений ...
 
 st.title("🏡 Калькулятор стоимости недвижимости в США")
 st.subheader("Оценка объектов в реальном времени")
 
-# Пример корректного ввода адреса для пользователя
 st.info("Пример формата: 5500 Grand Lake Dr, San Antonio, TX 78244")
 address = st.text_input("Введите точный адрес объекта:", "5500 Grand Lake Dr, San Antonio, TX")
 
@@ -23,7 +21,6 @@ if st.button("Узнать актуальную цену объектов", type
     if not api_key:
         st.error("Критическая ошибка: RAPIDAPI_KEY не настроен в конфигурации сервера.")
     else:
-        # Используем самый точный эндпоинт для оценки стоимости недвижимости
         url = "https://rapidapi.com"
         querystring = {"address": address}
         headers = {
@@ -36,16 +33,17 @@ if st.button("Узнать актуальную цену объектов", type
                 response = requests.get(url, headers=headers, params=querystring)
                 
                 if response.status_code == 200:
-                    data = response.json()
+                    try:
+                        data = response.json()
+                    except Exception:
+                        st.error("Ошибка: Сервер прислал некорректный формат данных вместо JSON.")
+                        st.code(response.text[:500])
+                        st.stop()
                     
                     if data and isinstance(data, dict):
-                        # Realty Mole возвращает оценку в поле 'price' или 'value'
                         price = data.get("price") or data.get("value")
-                        
                         if price:
                             st.success(f"🔥 Актуальная рыночная стоимость: **${int(price):,}**")
-                            
-                            # Вывод характеристик объекта, если они пришли в ответе
                             col1, col2, col3 = st.columns(3)
                             with col1:
                                 st.metric("Спальни", data.get("bedrooms", "—"))
@@ -54,18 +52,16 @@ if st.button("Узнать актуальную цену объектов", type
                             with col3:
                                 st.metric("Площадь (sqft)", f"{data.get('squareFootage', '—'):,}" if data.get('squareFootage') else "—")
                         else:
-                            st.warning("Объект найден, но точная рыночная цена для него сейчас не определена.")
+                            st.warning("Объект найден, но точная цена не определена.")
                     else:
-                        st.error("Данные по этому адресу не найдены. Проверьте правильность написания города и штата.")
+                        st.error("Данные по этому адресу не найдены.")
                 elif response.status_code == 403:
-                    st.error("Ошибка авторизации API: Ваш ключ RapidAPI не активен или введен неверно в Secrets.")
-                elif response.status_code == 429:
-                    st.error("Превышен лимит запросов на бесплатном тарифе API.")
+                    st.error("Ошибка авторизации (403): Ваш аккаунт на RapidAPI не подписан на этот тариф. Проверьте вкладку 'Pricing' у Realty Mole API.")
+                elif response.status_code == 404:
+                    st.error("Ошибка 404: Данный адрес или страница запроса не найдены в базе.")
                 else:
-                    st.error(f"Сервер баз данных вернул ошибку. Код ответа: {response.status_code}")
-                    st.json(response.json())
+                    st.error(f"Сервер вернул код ошибки: {response.status_code}")
+                    st.text(response.text[:300])
             except Exception as e:
                 st.error(f"Техническая ошибка подключения: {str(e)}")
-
-
 
