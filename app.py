@@ -53,13 +53,12 @@ if st.button("Рассчитать рыночную стоимость", type="p
             st.success(f"🔥 Актуальная рыночная стоимость: **${calculated_price:,}**")
             
             # Информационные метрики
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.metric("Цена за кв. фут", f"${base_rate}")
-            with c2:
-                st.metric("Тренд рынка в ZIP", f"{'+' if market_trend >= 0 else ''}{market_trend}%")
-            with c3:
-                st.metric("Статус оценки", "Подтверждено")
-                
-        except Exception as e:
-            st.error(f"Ошибка при расчете показателей: {str(e)}")
+                     # Красивый текстовый вывод показателей, который никогда не обрежется
+            st.markdown("---")
+            col_info1, col_info2 = st.columns(2)
+            with col_info1:
+                st.write(f"📊 **Средняя цена за кв. фут в штате:** `${base_rate}`")
+                st.write(f"📈 **Динамика тренда в ZIP {zip_code}:** ` {'+' if market_trend >= 0 else ''}{market_trend}% `")
+            with col_info2:
+                st.write("✅ **Статус текущей оценки:** `Успешно подтверждено`")
+                st.write("⏱ **Актуальность данных:** `В данный момент (Live)`")
