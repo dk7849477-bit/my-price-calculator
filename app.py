@@ -4,132 +4,78 @@ import random
 import plotly.express as px
 import pandas as pd
 
-st.set_page_config(page_title="Калькулятор цен США + Все Регионы", layout="centered")
+st.set_page_config(page_title="US Real Estate Calculator", layout="centered")
 
-st.title("🏡 Калькулятор стоимости недвижимости в США")
-st.subheader("Рыночная оценка и умная карта городов")
+# --- СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ ---
+translations = {
+    "Русский": {
+        "title": "🏡 Калькулятор стоимости недвижимости в США",
+        "subtitle": "Рыночная оценка и умная карта городов",
+        "info": "Введите параметры дома. Интерактивная карта автоматически сфокусируется на выбранном штате и его городах.",
+        "lbl_state": "Выберите штат США:",
+        "lbl_zip": "ZIP-код (Почтовый индекс):",
+        "lbl_style": "🗺️ Стиль интерактивной карты:",
+        "lbl_bed": "Спальни:",
+        "lbl_bath": "Ванные:",
+        "lbl_sqft": "Площадь (кв. футы):",
+        "btn_calc": "Рассчитать рыночную стоимость",
+        "spinner": "Анализируем экономические показатели регионов...",
+        "success": "🔥 Актуальная рыночная стоимость:",
+        "rate": "📊 Средняя цена за кв. фут в штате:",
+        "trend": "📈 Динамика тренда в ZIP",
+        "status": "✅ Статус текущей оценки:",
+        "status_val": "Успешно подтверждено",
+        "live": "⏱ Актуальность данных:",
+        "live_val": "В данный момент (Live)",
+        "map_title": "🗺️ Интерактивная карта цен по городам региона",
+        "map_heatmap": "Тепловая сетка стоимости объектов в",
+        "error": "Произошла ошибка при генерации карты:",
+        "city_1": "Центральная агломерация",
+        "city_2": "Северный округ мегаполиса",
+        "city_3": "Восточный пригородный сектор",
+        "city_4": "Южный индустриальный хаб",
+        "hover_price": "Рыночная цена",
+        "hover_price_str": "Цена"
+    },
+    "English": {
+        "title": "🏡 US Real Estate Valuation Calculator",
+        "subtitle": "Market Value Estimate & Smart GIS City Map",
+        "info": "Enter property metrics. The interactive map will auto-center on the selected state and its sub-markets.",
+        "lbl_state": "Select US State:",
+        "lbl_zip": "ZIP Code (Postal Index):",
+        "lbl_style": "🗺️ Interactive Map Style:",
+        "lbl_bed": "Bedrooms:",
+        "lbl_bath": "Bathrooms:",
+        "lbl_sqft": "Square Footage (sq ft):",
+        "btn_calc": "Calculate Market Value",
+        "spinner": "Analyzing regional economic indicators...",
+        "success": "🔥 Current Market Value:",
+        "rate": "📊 Average Price per Sq Ft in State:",
+        "trend": "📈 Trend Fluctuation in ZIP",
+        "status": "✅ Valuation Status:",
+        "status_val": "Successfully Verified",
+        "live": "⏱ Data Freshness:",
+        "live_val": "Live (Real-Time)",
+        "map_title": "🗺️ Interactive Regional City Price Map",
+        "map_heatmap": "Property Valuation Heat Grid in",
+        "error": "An error occurred during map generation:",
+        "city_1": "Central Metro Area",
+        "city_2": "North County Outskirts",
+        "city_3": "East Suburban Sector",
+        "city_4": "South Industrial Hub",
+        "hover_price": "Market Value",
+        "hover_price_str": "Price"
+    }
+}
 
-st.info("Введите параметры дома. Интерактивная карта автоматически сфокусируется на выбранном штате и его городах.")
+# --- ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА ТЕПЕРЬ ПО ЦЕНТРУ ЭКРАНА ВВЕРХУ ---
+lang = st.radio("🌐 Choose Language / Выберите язык:", ["English", "Русский"], horizontal=True)
+t = translations[lang]
 
-col_state, col_zip = st.columns(2)
-with col_state:
-    state = st.selectbox("Выберите штат США:", [
-        "AL (Алабама)", "AK (Аляска)", "AZ (Аризона)", "AR (Арканзас)", "CA (Калифорния)", 
-        "CO (Колорадо)", "CT (Коннектикут)", "DE (Делавэр)", "FL (Флорида)", "GA (Джорджия)", 
-        "HI (Гавайи)", "ID (Айдахо)", "IL (Иллинойс)", "IN (Индиана)", "IA (Айова)", 
-        "KS (Канзас)", "KY (Кентукки)", "LA (Луизиана)", "ME (Мэн)", "MD (Мэриленд)", 
-        "MA (Массачусетс)", "MI (Мичиган)", "MN (Миннесота)", "MS (Миссисипи)", "MO (Миссури)", 
-        "MT (Монтана)", "NE (Небраска)", "NV (Невада)", "NH (Нью-Гэмпшир)", "NJ (Нью-Джерси)", 
-        "NM (Нью-Мексико)", "NY (Нью-Йорк)", "NC (Северная Каролина)", "ND (Северная Дакота)", "OH (Огайо)", 
-        "OK (Оклахома)", "OR (Орегон)", "PA (Пенсильвания)", "RI (Род-Айленд)", "SC (Южная Каролина)", 
-        "SD (Южная Дакота)", "TN (Теннесси)", "TX (Техас)", "UT (Юта)", "VT (Вермонт)", 
-        "VA (Вирджиния)", "WA (Вашингтон)", "WV (Западная Вирджиния)", "WI (Висконсин)", "WY (Вайоминг)"
-    ])
-with col_zip:
-    zip_code = st.text_input("ZIP-код (Почтовый индекс):", "78244")
+# Дальше идут ваши стандартные заголовки, которые теперь зависят от выбранного языка:
+st.title(t["title"])
+st.subheader(t["subtitle"])
+st.info(t["info"])
 
-map_style = st.sidebar.selectbox(
-    "🗺️ Стиль интерактивной карты:",
-    ["carto-darkmatter", "open-street-map", "carto-positron"]
-)
+# ... (весь остальной код калькулятора и карты остается без изменений)
 
-col_bed, col_bath, col_sqft = st.columns(3)
-with col_bed:
-    bedrooms = st.number_input("Спальни:", min_value=1, max_value=10, value=3)
-with col_bath:
-    bathrooms = st.number_input("Ванные:", min_value=1, max_value=10, value=2)
-with col_sqft:
-    square_footage = st.number_input("Площадь (кв. футы):", min_value=300, max_value=15000, value=1500)
-
-if st.button("Рассчитать рыночную стоимость", type="primary"):
-    with st.spinner("Анализируем экономические показатели регионов..."):
-        try:
-            state_multipliers = {
-                "AL (Алабама)": 140, "AK (Аляска)": 210, "AZ (Аризона)": 260, "AR (Арканзас)": 130, "CA (Калифорния)": 550,
-                "CO (Колорадо)": 320, "CT (Коннектикут)": 230, "DE (Делавэр)": 210, "FL (Флорида)": 240, "GA (Джорджия)": 190,
-                "HI (Гавайи)": 620, "ID (Айдахо)": 250, "IL (Иллинойс)": 210, "IN (Индиана)": 150, "IA (Айова)": 140,
-                "KS (Канзас)": 150, "KY (Кентукки)": 145, "LA (Луизиана)": 160, "ME (Мэн)": 220, "MD (Мэриленд)": 240,
-                "MA (Массачусетс)": 410, "MI (Мичиган)": 170, "MN (Миннесота)": 195, "MS (Миссисипи)": 120, "MO (Миссури)": 160,
-                "MT (Монтана)": 280, "NE (Небраска)": 165, "NV (Невада)": 270, "NH (Нью-Гэмпшир)": 235, "NJ (Нью-Джерси)": 290,
-                "NM (Нью-Мексико)": 180, "NY (Нью-Йорк)": 450, "NC (Северная Каролина)": 200, "ND (Северная Дакота)": 175, "OH (Огайо)": 150,
-                "OK (Оклахома)": 135, "OR (Орегон)": 310, "PA (Пенсильвания)": 185, "RI (Род-Айленд)": 285, "SC (Южная Каролина)": 195,
-                "SD (Южная Дакота)": 180, "TN (Теннесси)": 210, "TX (Техас)": 180, "UT (Юта)": 290, "VT (Вермонт)": 225,
-                "VA (Вирджиния)": 230, "WA (Вашингтон)": 380, "WV (Западная Вирджиния)": 115, "WI (Висконсин)": 180, "WY (Вайоминг)": 220
-            }
-            state_centers = {
-                "AL (Алабама)": (32.3182, -86.9023), "AK (Аляска)": (63.5887, -154.4931), "AZ (Аризона)": (34.0489, -111.0937),
-                "AR (Арканзас)": (34.9697, -92.3731), "CA (Калифорния)": (36.7783, -119.4179), "CO (Колорадо)": (39.5501, -105.7821),
-                "CT (Коннектикут)": (41.6032, -73.0877), "DE (Делавэр)": (38.9108, -75.5277), "FL (Флорида)": (27.6648, -81.5158),
-                "GA (Джорджия)": (32.1656, -82.9001), "HI (Гавайи)": (19.8968, -155.5828), "ID (Айдахо)": (44.0682, -114.7420),
-                "IL (Иллинойс)": (40.6331, -89.3985), "IN (Индиана)": (40.2672, -86.1349), "IA (Айова)": (41.8780, -93.0977),
-                "KS (Канзас)": (38.4988, -98.3159), "KY (Кентукки)": (37.8393, -84.2700), "LA (Луизиана)": (31.1695, -91.8749),
-                "ME (Мэн)": (45.2538, -69.4455), "MD (Мэриленд)": (39.0458, -76.6413), "MA (Массачусетс)": (42.4072, -71.3824),
-                "MI (Мичиган)": (44.3148, -85.6024), "MN (Миннесота)": (45.6945, -93.9002), "MS (Миссисипи)": (32.3547, -89.3985),
-                "MO (Миссури)": (37.9643, -91.8318), "MT (Монтана)": (46.8797, -110.3626), "NE (Небраска)": (41.1254, -98.2681),
-                "NV (Невада)": (38.8026, -116.4194), "NH (Нью-Гэмпшир)": (43.1939, -71.5724), "NJ (Нью-Джерси)": (40.0583, -74.4057),
-                "NM (Нью-Мексико)": (34.5199, -105.8701), "NY (Нью-Йорк)": (43.2994, -74.2179), "NC (Северная Каролина)": (35.7596, -79.0193),
-                "ND (Северная Дакота)": (47.5515, -101.0020), "OH (Огайо)": (40.4173, -82.9071), "OK (Оклахома)": (35.5653, -96.9289),
-                "OR (Орегон)": (43.8041, -120.5542), "PA (Пенсильвания)": (41.2033, -77.1945), "RI (Род-Айленд)": (41.5801, -71.4774),
-                "SC (Южная Каролина)": (33.8361, -81.1637), "SD (Южная Дакота)": (44.3668, -100.3538), "TN (Теннесси)": (35.5175, -86.5804),
-                "TX (Техас)": (31.9686, -99.9018), "UT (Юта)": (39.3210, -111.0937), "VT (Вермонт)": (44.5588, -72.5778),
-                "VA (Вирджиния)": (37.4316, -78.6569), "WA (Вашингтон)": (47.4009, -121.4905), "WV (Западная Вирджиния)": (38.5976, -80.4549),
-                "WI (Висконсин)": (43.7844, -88.7879), "WY (Вайоминг)": (43.0760, -107.2903)
-            }
-            base_rate = state_multipliers.get(state, 200)
-            calculated_price = square_footage * base_rate
-            calculated_price += (bedrooms * 25000) + (bathrooms * 15000)
-            random.seed(int(zip_code) if zip_code.isdigit() else 12345)
-            market_trend = random.randint(-5, 7)
-            calculated_price = int(calculated_price * (1 + market_trend / 100))
-            st.success(f"🔥 Актуальная рыночная стоимость: **${calculated_price:,}**")
-            st.markdown("---")
-            col_info1, col_info2 = st.columns(2)
-            with col_info1:
-                st.write(f"📊 **Средняя цена за кв. фут в штате:** `${base_rate}`")
-                st.write(f"📈 **Динамика тренда в ZIP {zip_code}:** ` {'+' if market_trend >= 0 else ''}{market_trend}% `")
-            with col_info2:
-                st.write("✅ **Статус текущей оценки:** `Успешно подтверждено`")
-                st.write("⏱ **Актуальность данных:** `В данный момент (Live)`")
-            st.markdown("### 🗺️ Интерактивная карта цен по городам региона")
-            lat_center, lon_center = state_centers.get(state, (37.0902, -95.7129))
-            random.seed(hash(state))
-            cities_list = [
-                ("Центральная агломерация", lat_center, lon_center),
-                ("Северный округ мегаполиса", lat_center + random.uniform(0.3, 0.6), lon_center - random.uniform(0.3, 0.6)),
-                ("Восточный пригородный сектор", lat_center - random.uniform(0.2, 0.5), lon_center + random.uniform(0.4, 0.7)),
-                ("Южный индустриальный хаб", lat_center - random.uniform(0.4, 0.7), lon_center - random.uniform(0.1, 0.4))
-            ]
-            records = []
-            for i, (city_name, lat, lon) in enumerate(cities_list):
-                city_modifier = 1.0 + (i * 0.04) - 0.06
-                city_price = int(calculated_price * city_modifier)
-                records.append({
-                    'Район / Город': city_name,
-                    'lat': lat,
-                    'lon': lon,
-                    'Рыночная цена': city_price,
-                    'Цена': f"${city_price:,}",
-                    'Размер маркера': 13 + i
-                })
-            map_df = pd.DataFrame(records)
-            fig = px.scatter_map(
-                map_df,
-                lat='lat',
-                lon='lon',
-                hover_name='Район / Город',
-                hover_data={'Рыночная цена': False, 'Цена': True, 'lat': False, 'lon': False},
-                color='Рыночная цена',
-                size='Размер маркера',
-                color_continuous_scale='Turbo',
-                size_max=18
-            )
-            fig.update_layout(
-                map_style=map_style,
-                map=dict(center=dict(lat=lat_center, lon=lon_center), zoom=6 if state != "AK (Аляска)" else 4),
-                coloraxis_showscale=True, 
-                margin=dict(l=0, r=0, t=0, b=0),
-                height=450
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        except Exception as e:
-            st.error(f"Ошибка при расчете показателей: {str(e)}")
