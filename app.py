@@ -113,7 +113,8 @@ with tab2:
             
             prediction = model.predict(user_data)
             real_price = prediction * 100000
-            clean_price = float(real_price)
+            clean_price = float(real_price[0])
+
             
             st.success(f"🏠 Прогноз ИИ для локации '{location}': **${max(clean_price, 15000):,.0f}**")
         else:
