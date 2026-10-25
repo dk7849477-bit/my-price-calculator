@@ -1,1 +1,0 @@
-console.error("Привет от Java Script") 
