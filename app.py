@@ -154,13 +154,62 @@ lang = st.radio(
 )
 t = translations[lang]
 
+# Базовые координаты (центроиды) и средняя стоимость за кв. фут для всех 50 штатов США
 state_data = {
-    "AL (Alabama)": {"lat": 32.3182, "lon": -86.9023, "base_sqft": 140},
-    "CA (California)": {"lat": 36.7783, "lon": -119.4179, "base_sqft": 450},
-    "FL (Florida)": {"lat": 27.6648, "lon": -81.5158, "base_sqft": 290},
-    "NY (New York)": {"lat": 43.2994, "lon": -74.2179, "base_sqft": 350},
-    "TX (Texas)": {"lat": 31.9686, "lon": -99.9018, "base_sqft": 180}
+    "AL (Alabama)": {"lat": 32.3182, "lon": -86.9023, "base_sqft": 145},
+    "AK (Alaska)": {"lat": 63.5887, "lon": -154.4931, "base_sqft": 215},
+    "AZ (Arizona)": {"lat": 34.0489, "lon": -111.0937, "base_sqft": 265},
+    "AR (Arkansas)": {"lat": 35.2010, "lon": -91.8318, "base_sqft": 135},
+    "CA (California)": {"lat": 36.7783, "lon": -119.4179, "base_sqft": 460},
+    "CO (Colorado)": {"lat": 39.5501, "lon": -105.7821, "base_sqft": 325},
+    "CT (Connecticut)": {"lat": 41.6032, "lon": -73.0877, "base_sqft": 245},
+    "DE (Delaware)": {"lat": 38.9108, "lon": -75.5277, "base_sqft": 205},
+    "FL (Florida)": {"lat": 27.6648, "lon": -81.5158, "base_sqft": 295},
+    "GA (Georgia)": {"lat": 32.1574, "lon": -82.9071, "base_sqft": 190},
+    "HI (Hawaii)": {"lat": 19.8968, "lon": -155.5828, "base_sqft": 615},
+    "ID (Idaho)": {"lat": 44.0682, "lon": -114.7420, "base_sqft": 245},
+    "IL (Illinois)": {"lat": 40.6331, "lon": -89.3985, "base_sqft": 180},
+    "IN (Indiana)": {"lat": 40.2672, "lon": -86.1349, "base_sqft": 155},
+    "IA (Iowa)": {"lat": 41.8780, "lon": -93.0977, "base_sqft": 160},
+    "KS (Kansas)": {"lat": 38.5266, "lon": -96.7265, "base_sqft": 165},
+    "KY (Kentucky)": {"lat": 37.8393, "lon": -84.2700, "base_sqft": 150},
+    "LA (Louisiana)": {"lat": 31.2448, "lon": -92.1450, "base_sqft": 170},
+    "ME (Maine)": {"lat": 45.2538, "lon": -69.4455, "base_sqft": 225},
+    "MD (Maryland)": {"lat": 39.0458, "lon": -76.6413, "base_sqft": 240},
+    "MA (Massachusetts)": {"lat": 42.4072, "lon": -71.3824, "base_sqft": 395},
+    "MI (Michigan)": {"lat": 44.3148, "lon": -85.6024, "base_sqft": 175},
+    "MN (Minnesota)": {"lat": 45.6945, "lon": -93.9002, "base_sqft": 215},
+    "MS (Mississippi)": {"lat": 32.3547, "lon": -89.3985, "base_sqft": 135},
+    "MO (Missouri)": {"lat": 37.9643, "lon": -91.8318, "base_sqft": 165},
+    "MT (Montana)": {"lat": 46.8797, "lon": -110.3626, "base_sqft": 280},
+    "NE (Nebraska)": {"lat": 41.4925, "lon": -99.9018, "base_sqft": 180},
+    "NV (Nevada)": {"lat": 38.8026, "lon": -116.4194, "base_sqft": 285},
+    "NH (New Hampshire)": {"lat": 43.1939, "lon": -71.5724, "base_sqft": 255},
+    "NJ (New Jersey)": {"lat": 40.0583, "lon": -74.4057, "base_sqft": 315},
+    "NM (New Mexico)": {"lat": 34.9727, "lon": -105.0324, "base_sqft": 195},
+    "NY (New York)": {"lat": 43.2994, "lon": -74.2179, "base_sqft": 355},
+    "NC (North Carolina)": {"lat": 35.7596, "lon": -79.0193, "base_sqft": 220},
+    "ND (North Dakota)": {"lat": 47.5515, "lon": -101.0020, "base_sqft": 185},
+    "OH (Ohio)": {"lat": 40.4173, "lon": -82.9071, "base_sqft": 170},
+    "OK (Oklahoma)": {"lat": 35.0078, "lon": -97.0929, "base_sqft": 155},
+    "OR (Oregon)": {"lat": 43.8041, "lon": -120.5542, "base_sqft": 315},
+    "PA (Pennsylvania)": {"lat": 41.2033, "lon": -77.1945, "base_sqft": 200},
+    "RI (Rhode Island)": {"lat": 41.5801, "lon": -71.4774, "base_sqft": 290},
+    "SC (South Carolina)": {"lat": 33.8361, "lon": -81.1637, "base_sqft": 195},
+    "SD (South Dakota)": {"lat": 44.3668, "lon": -100.3364, "base_sqft": 200},
+    "TN (Tennessee)": {"lat": 35.5175, "lon": -86.5804, "base_sqft": 205},
+    "TX (Texas)": {"lat": 31.9686, "lon": -99.9018, "base_sqft": 185},
+    "UT (Utah)": {"lat": 39.3210, "lon": -111.0937, "base_sqft": 305},
+    "VT (Vermont)": {"lat": 44.5588, "lon": -72.5778, "base_sqft": 235},
+    "VA (Virginia)": {"lat": 37.4316, "lon": -78.6569, "base_sqft": 230},
+    "WA (Washington)": {"lat": 47.7511, "lon": -120.7401, "base_sqft": 365},
+    "WV (West Virginia)": {"lat": 38.5976, "lon": -80.4549, "base_sqft": 130},
+    "WI (Wisconsin)": {"lat": 43.7844, "lon": -88.7879, "base_sqft": 195},
+    "WY (Wyoming)": {"lat": 43.0760, "lon": -107.2903, "base_sqft": 255}
 }
+
+# Автоматически обновляем список выпадающего меню из всех 50 ключей
+states_list = list(state_data.keys())
 
 states_list = list(state_data.keys())
 
