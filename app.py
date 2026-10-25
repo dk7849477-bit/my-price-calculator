@@ -1,11 +1,16 @@
 import streamlit as st
 import requests
 import os
+from dotenv import load_dotenv
 
-# Безопасное чтение API-ключа из настроек окружения
-api_key = os.environ.get("RAPIDAPI_KEY")
+# Загружаем переменные из локального файла .env (если он существует на компьютере)
+load_dotenv()
+
+# Чтение ключа (сработает локально через .env и в облаке через Secrets)
+api_key = os.environ.get("RAPIDAPI_KEY") or st.secrets.get("RAPIDAPI_KEY")
 
 st.set_page_config(page_title="Калькулятор цен США", layout="centered")
+# ... дальше идет весь остальной ваш код без изменений ...
 
 st.title("🏡 Калькулятор стоимости недвижимости в США")
 st.subheader("Оценка объектов в реальном времени")
