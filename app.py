@@ -1,6 +1,22 @@
+import streamlit as st
+import requests
+import os
+
+# Безопасное чтение API-ключа из настроек окружения
+api_key = os.environ.get("RAPIDAPI_KEY")
+
+st.set_page_config(page_title="Калькулятор цен США", layout="centered")
+
+st.title("🏡 Калькулятор стоимости недвижимости в США")
+st.subheader("Оценка объектов в реальном времени")
+
+# Пример корректного ввода адреса для пользователя
+st.info("Пример формата: 5500 Grand Lake Dr, San Antonio, TX 78244")
+address = st.text_input("Введите точный адрес объекта:", "5500 Grand Lake Dr, San Antonio, TX")
+
 if st.button("Узнать актуальную цену объектов", type="primary"):
     if not api_key:
-        st.error("Критическая ошибка: API_KEY не настроен в конфигурации сервера.")
+        st.error("Критическая ошибка: RAPIDAPI_KEY не настроен в конфигурации сервера.")
     else:
         # Используем самый точный эндпоинт для оценки стоимости недвижимости
         url = "https://rapidapi.com"
@@ -42,10 +58,9 @@ if st.button("Узнать актуальную цену объектов", type
                     st.error("Превышен лимит запросов на бесплатном тарифе API.")
                 else:
                     st.error(f"Сервер баз данных вернул ошибку. Код ответа: {response.status_code}")
-                    # Выводим технический ответ для отладки, если что-то не так
                     st.json(response.json())
             except Exception as e:
-                # Показываем точную техническую причину ошибки вместо общей заглушки
                 st.error(f"Техническая ошибка подключения: {str(e)}")
+
 
 
