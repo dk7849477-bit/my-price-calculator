@@ -11,7 +11,6 @@ st.subheader("Рыночная оценка и умная карта город�
 
 st.info("Введите параметры дома. Интерактивная карта автоматически сфокусируется на выбранном штате и его городах.")
 
-# Настройка интерфейса ввода данных
 col_state, col_zip = st.columns(2)
 with col_state:
     state = st.selectbox("Выберите штат США:", [
@@ -29,7 +28,6 @@ with col_state:
 with col_zip:
     zip_code = st.text_input("ZIP-код (Почтовый индекс):", "78244")
 
-# Выбор стиля карты
 map_style = st.sidebar.selectbox(
     "🗺️ Стиль интерактивной карты:",
     ["carto-darkmatter", "open-street-map", "carto-positron"]
@@ -46,7 +44,6 @@ with col_sqft:
 if st.button("Рассчитать рыночную стоимость", type="primary"):
     with st.spinner("Анализируем экономические показатели регионов..."):
         try:
-            # Базовые коэффициенты стоимости кв. фута по всем 50 штатам
             state_multipliers = {
                 "AL (Алабама)": 140, "AK (Аляска)": 210, "AZ (Аризона)": 260, "AR (Арканзас)": 130, "CA (Калифорния)": 550,
                 "CO (Колорадо)": 320, "CT (Коннектикут)": 230, "DE (Делавэр)": 210, "FL (Флорида)": 240, "GA (Джорджия)": 190,
@@ -59,8 +56,6 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 "SD (Южная Дакота)": 180, "TN (Теннесси)": 210, "TX (Техас)": 180, "UT (Юта)": 290, "VT (Вермонт)": 225,
                 "VA (Вирджиния)": 230, "WA (Вашингтон)": 380, "WV (Западная Вирджиния)": 115, "WI (Висконсин)": 180, "WY (Вайоминг)": 220
             }
-            
-            # Географические центры всех 50 штатов США для точного наведения камеры
             state_centers = {
                 "AL (Алабама)": (32.3182, -86.9023), "AK (Аляска)": (63.5887, -154.4931), "AZ (Аризона)": (34.0489, -111.0937),
                 "AR (Арканзас)": (34.9697, -92.3731), "CA (Калифорния)": (36.7783, -119.4179), "CO (Колорадо)": (39.5501, -105.7821),
@@ -80,20 +75,13 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 "VA (Вирджиния)": (37.4316, -78.6569), "WA (Вашингтон)": (47.4009, -121.4905), "WV (Западная Вирджиния)": (38.5976, -80.4549),
                 "WI (Висконсин)": (43.7844, -88.7879), "WY (Вайоминг)": (43.0760, -107.2903)
             }
-
-            # Базовый расчет по площади
             base_rate = state_multipliers.get(state, 200)
             calculated_price = square_footage * base_rate
             calculated_price += (bedrooms * 25000) + (bathrooms * 15000)
-            
-            # Динамический тренд по ZIP
             random.seed(int(zip_code) if zip_code.isdigit() else 12345)
             market_trend = random.randint(-5, 7)
             calculated_price = int(calculated_price * (1 + market_trend / 100))
-            
-            # Вывод результата
             st.success(f"🔥 Актуальная рыночная стоимость: **${calculated_price:,}**")
-            
             st.markdown("---")
             col_info1, col_info2 = st.columns(2)
             with col_info1:
@@ -102,27 +90,17 @@ if st.button("Рассчитать рыночную стоимость", type="p
             with col_info2:
                 st.write("✅ **Статус текущей оценки:** `Успешно подтверждено`")
                 st.write("⏱ **Актуальность данных:** `В данный момент (Live)`")
-            
-            # --- СЕКЦИЯ С АВТОМАТИЧЕСКОЙ КАРТОЙ ВСЕХ ШТАТОВ ---
             st.markdown("### 🗺️ Интерактивная карта цен по городам региона")
-            
-            # Получаем центр выбранного штата (по умолчанию географический центр США)
             lat_center, lon_center = state_centers.get(state, (37.0902, -95.7129))
-            
-            # Автоматически генерируем 4 крупные региональные точки-мегаполиса вокруг центра выбранного штата
-            # Используем хэш названия штата, чтобы координаты городов для конкретного штата были постоянными
             random.seed(hash(state))
-            
             cities_list = [
                 ("Центральная агломерация", lat_center, lon_center),
-                ("Северный округ мегаполиса", lat_center + random.uniform(0.3, 0.7), lon_center - random.uniform(0.3, 0.7)),
-                ("Восточный пригородный сектор", lat_center - random.uniform(0.2, 0.5), lon_center + random.uniform(0.4, 0.8)),
-                ("Южный индустриальный хаб", lat_center - random.uniform(0.4, 0.8), lon_center - random.uniform(0.1, 0.4))
+                ("Северный округ мегаполиса", lat_center + random.uniform(0.3, 0.6), lon_center - random.uniform(0.3, 0.6)),
+                ("Восточный пригородный сектор", lat_center - random.uniform(0.2, 0.5), lon_center + random.uniform(0.4, 0.7)),
+                ("Южный индустриальный хаб", lat_center - random.uniform(0.4, 0.7), lon_center - random.uniform(0.1, 0.4))
             ]
-            
             records = []
             for i, (city_name, lat, lon) in enumerate(cities_list):
-                # Симулируем перепад престижности районов
                 city_modifier = 1.0 + (i * 0.04) - 0.06
                 city_price = int(calculated_price * city_modifier)
                 records.append({
@@ -133,10 +111,7 @@ if st.button("Рассчитать рыночную стоимость", type="p
                     'Цена': f"${city_price:,}",
                     'Размер маркера': 13 + i
                 })
-            
             map_df = pd.DataFrame(records)
-            
-            # Строим карту MapLibre
             fig = px.scatter_map(
                 map_df,
                 lat='lat',
@@ -148,19 +123,13 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 color_continuous_scale='Turbo',
                 size_max=18
             )
-            
-            # Динамически настраиваем камеру точно на широту и долготу выбранного штата
             fig.update_layout(
                 map_style=map_style,
-                map=dict(
-                    center=dict(lat=lat_center, lon=lon_center),
-                    zoom=6 if state != "AK (Аляска)" else 4  # Для огромной Аляски делаем зум чуть дальше
-                ),
+                map=dict(center=dict(lat=lat_center, lon=lon_center), zoom=6 if state != "AK (Аляска)" else 4),
                 coloraxis_showscale=True, 
                 margin=dict(l=0, r=0, t=0, b=0),
                 height=450
             )
-            
             st.plotly_chart(fig, use_container_width=True)
-                
-
+        except Exception as e:
+            st.error(f"Ошибка при расчете показателей: {str(e)}")
