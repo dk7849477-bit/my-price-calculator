@@ -29,10 +29,10 @@ with col_state:
 with col_zip:
     zip_code = st.text_input("ZIP-код (Почтовый индекс):", "78244")
 
-# Выбор стиля карты пользователем (Премиум фича!)
+# Выбор стиля карты пользователем (Новые совместимые форматы Plotly 6)
 map_style = st.sidebar.selectbox(
     "🗺️ Стиль интерактивной карты:",
-    ["open-street-map", "carto-darkmatter", "carto-positron", "stamen-terrain"]
+    ["carto-darkmatter", "open-street-map", "carto-positron"]
 )
 
 col_bed, col_bath, col_sqft = st.columns(3)
@@ -60,7 +60,7 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 "VA (Вирджиния)": 230, "WA (Вашингтон)": 380, "WV (Западная Вирджиния)": 115, "WI (Висконсин)": 180, "WY (Вайоминг)": 220
             }
             
-            # Массивная расширенная база городов по всем штатам для высокой плотности точек
+            # Расширенная база городов по ключевым регионам для высокой плотности точек
             regional_cities = {
                 "CA (Калифорния)": [
                     ("Лос-Анджелес", 34.0522, -118.2437), ("Сан-Франциско", 37.7749, -122.4194), 
@@ -109,10 +109,10 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 st.write("✅ **Статус текущей оценки:** `Успешно подтверждено`")
                 st.write("⏱ **Актуальность данных:** `В данный момент (Live)`")
             
-            # --- СЕКЦИЯ С DESIGNER MAPBOX КАРТОЙ ---
+            # --- СЕКЦИЯ С КАРТОЙ MAPLIBRE ---
             st.markdown("### 🗺️ Интерактивная карта цен по городам региона")
             
-            # Получаем города или генерируем дефолтный центр
+            # Получаем города или генерируем дефолтный центр штата
             cities_list = regional_cities.get(state, [
                 ("Центральная агломерация", 37.0902, -95.7129),
                 ("Северный округ", 38.0000, -95.0000),
@@ -134,8 +134,8 @@ if st.button("Рассчитать рыночную стоимость", type="p
             
             map_df = pd.DataFrame(records)
             
-            # Строим профессиональную Mapbox карту вместо серого глобуса
-            fig = px.scatter_mapbox(
+            # Строим профессиональную карту на новом движке Plotly Express
+            fig = px.scatter_map(
                 map_df,
                 lat='lat',
                 lon='lon',
@@ -143,15 +143,15 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 hover_data={'Рыночная цена': False, 'Цена для всплывающего окна': True, 'lat': False, 'lon': False},
                 color='Рыночная цена',
                 size='Размер точки',
-                color_continuous_scale='Turbo', # Неоновый красивый градиент цен (от синего к красному)
+                color_continuous_scale='Turbo', # Яркий неоновый градиент цен от синего к красному
                 size_max=18,
                 zoom=5 if state in regional_cities else 3
             )
             
-            # Применение стилей подложки карт (без серых пятен)
+            # Применение настроек подложки карт (без серых экранов)
             fig.update_layout(
-                mapbox_style=map_style,
-                coloraxis_showscale=True, # Оставляем градиентную шкалу цен сбоку
+                map_style=map_style,
+                coloraxis_showscale=True, 
                 margin=dict(l=0, r=0, t=0, b=0),
                 height=450
             )
@@ -160,3 +160,4 @@ if st.button("Рассчитать рыночную стоимость", type="p
                 
         except Exception as e:
             st.error(f"Ошибка при рендеринге интерфейса карты: {str(e)}")
+
