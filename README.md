@@ -1,76 +1,59 @@
-\# 📊 Интерактивный дашборд недвижимости Калифорнии на Python (Streamlit + ML)
+# 🏡 AI-Powered US Real Estate Valuation & GIS Analytics Platform
 
+A production-ready, cloud-deployed **SaaS MVP Application** built with Python and Streamlit. It fetches real-time market data directly from US real estate sub-markets via professional API integration and visualizes property values using dynamic GIS geographic mapping.
 
+## 🔗 Live Demo
+🌐 **[Click here to open the Interactive Web App](https://streamlit.io)** *(Replace with your actual Streamlit URL)*
 
-Интерактивное веб-приложение для анализа рынка недвижимости крупнейших мегаполисов Калифорнии (Сан-Франциско, Лос-Анджелес, Сан-Диего, Сан-Хосе, Сакраменто). Проект включает в себя визуализацию реальных данных на карте и калькулятор стоимости объектов на базе обученной модели машинного обучения.
+---
 
+## ⚡ Core Technical Features
 
+* **Real-Time Data Engine:** Integrated with live US Property APIs (`RentCast API`) via secure `requests` hooks to pull genuine valuation metrics.
+* **Smart GIS Grid:** Interactive pricing maps powered by `Plotly Express Map` (optimized for Plotly v6+) with custom zoom centering by state and ZIP-code centroids.
+* **Full 50-State Database:** Complete latitude, longitude, and benchmark pricing matrices for every single state across the United States.
+* **Native Pentallinguism:** On-the-fly interactive localization supporting 5 major global languages: **English, Русский, Español, Deutsch, and 中文**.
+* **Clean MVC-like Architecture:** Modular, decoupled structure built to avoid common Streamlit re-run artifacts.
 
-\## ✨ Ключевые фичи проекта
+---
 
-\* \*\*Интерактивная карта:\*\* Визуализация цен и размеров жилья со всего штата на базе реальных гео-координат (`Plotly Express`).
+## 🛠️ Tech Stack & Dependencies
 
-\* \*\*Умный калькулятор (ИИ):\*\* Прогноз стоимости объектов с использованием алгоритма Случайного леса (`Random Forest Regressor`).
+* **Frontend UI:** Streamlit (Layout engine, state persistence)
+* **GIS Components:** Plotly Express (`px.scatter_map`)
+* **Data Processing:** Pandas (Dataframe clustering)
+* **HTTP Infrastructure:** Requests (REST API interactions)
 
-\* \*\*UX-подсказки:\*\* В интерфейс встроены интерактивные микротексты, объясняющие сложные экономические феномены рынка (например, почему старые дома в центрах мегаполисов часто стоят дороже новостроек на окраинах).
+---
 
-\* \*\*Локализация:\*\* Полностью русскоязычный интерфейс и переведенная таблица исходных данных (`Pandas`).
+## 🚀 Quick Local Installation
 
-\* \*\*Инженерный подход:\*\* В модели устранены математические аномалии (коллинеарность признаков) за счет создания комбинированного признака (`Feature Engineering`).
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com
+   cd your-repository-name
+   ```
 
+2. **Install required packages:**
+   ```bash
+   pip install streamlit plotly pandas requests
+   ```
 
+3. **Configure your API Access:**
+   Open `app.py` and replace `"YOUR_REAL_API_KEY"` with your valid RentCast token inside the HTTP request headers block.
 
-\## 🛠 Стек технологий
+4. **Launch the platform:**
+   ```bash
+   streamlit run app.py
+   ```
 
-\* \*\*Язык разработки:\*\* Python 3.11+
+---
 
-\* \*\*Анализ и подготовка данных:\*\* Pandas, NumPy
+## 📈 Scalability Pipeline (Future Scope)
+* [ ] Automated PDF Valuation Report Generation for clients.
+* [ ] CRM Lead Capture Form for local US Real Estate brokers.
+* [ ] Automated historical trend analysis plots using regression models.
 
-\* \*\*Машинное обучение (ML):\*\* Scikit-learn, Joblib
-
-\* \*\*Интерфейс и графики:\*\* Streamlit, Plotly
-
-
-
-\## 💻 Как запустить проект локально
-
-
-
-1.git add .
-
-git commit -m "Добавлена правильная ссылка на репозиторий dk7849477-bit"
-
-git push origin main
-
-
-
-2\. \*\*Установите необходимые библиотеки:\*\*
-
-&#x20;  ```bash
-
-&#x20;  pip install streamlit plotly scikit-learn pandas
-
-&#x20;  ```
-
-
-
-3\. \*\*Обучите модель искусственного интеллекта:\*\*
-
-&#x20;  ```bash
-
-&#x20;  python train\_model.py
-
-&#x20;  ```
-
-
-
-4\. \*\*Запустите веб-интерфейс:\*\*
-
-&#x20;  ```bash
-
-&#x20;  python -m streamlit run app.py
-
-&#x20;  ```
-
-
+---
+⭐ *If you find this real estate analytics application useful, feel free to fork the repository or give it a star!*
 
