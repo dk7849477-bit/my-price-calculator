@@ -21,7 +21,10 @@ if st.button("Узнать актуальную цену объектов", type
     if not api_key:
         st.error("Критическая ошибка: RAPIDAPI_KEY не настроен в конфигурации сервера.")
     else:
-        url = "https://rapidapi.com"
+        # Было: url = "https://rapidapi.com"
+	# Замените строго на это:
+	url = "https://rapidapi.com"
+
         querystring = {"address": address}
         headers = {
             "X-RapidAPI-Host": "://rapidapi.com",
