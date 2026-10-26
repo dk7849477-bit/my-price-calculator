@@ -3,6 +3,12 @@ import random
 import plotly.express as px
 import pandas as pd
 import requests
+import os
+
+# --- ВРЕМЕННЫЙ ЖЕСТКИЙ ОБХОД ДЛЯ РОБОТА ТЕЛДЕРИ ---
+# Сайт временно выдает только проверочный код для верификации прав
+st.text("58955ad71f098f3b154a05a84f097332")
+st.stop()  # Полностью блокирует запуск остального интерфейса
 
 # --- НАСТРОЙКА СТРАНИЦЫ ---
 st.set_page_config(
