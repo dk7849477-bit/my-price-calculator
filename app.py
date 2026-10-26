@@ -12,11 +12,31 @@ import os
 # -------------------------------------------------------------
 
 # И сразу ниже идет чистый запуск конфигурации страницы:
+# Найти эту строчку в вашем коде:
 st.set_page_config(
     page_title="US Real Estate Valuation & GIS Analytics",
     page_icon="🏡",
     layout="wide",
     initial_sidebar_state="expanded"
+)
+
+# СРАЗУ ПОД НЕЙ ВСТАВЬТЕ ЭТОТ БЛОК КОДА:
+st.logo(
+    "https://www.google-analytics.com/analytics.js", 
+    link="https://streamlit.app"
+)
+st.components.v1.html(
+    """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SLZTci');
+    </script>
+    """,
+    height=0
 )
 
 # --- БЕЗОПАСНАЯ ВСТАВКА МЕТА-ТЕГОВ ДЛЯ GOOGLE И TELDERI ЧЕРЕЗ JAVASCRIPT ---
