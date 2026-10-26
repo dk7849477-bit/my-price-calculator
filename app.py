@@ -4,6 +4,8 @@ import plotly.express as px
 import pandas as pd
 import requests
 import os
+from streamlit_google_analytics import load_analytics
+load_analytics("G-HR7D92B6B3") # Вставьте сюда ваш настоящий ID
 
 # --- ВСЕ ЭТИ СТРОЧКИ ДОЛЖНЫ БЫТЬ ЗАКОММЕНТИРОВАНЫ ИЛИ УДАЛЕНЫ ---
 # st.text("58955ad71f098f3b154a05a84f097332")
