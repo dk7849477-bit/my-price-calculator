@@ -1,5 +1,4 @@
 plotly
 scikit-learn
-requests
 python-dotenv
 streamlit-google-analytics
