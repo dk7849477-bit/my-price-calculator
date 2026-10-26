@@ -10,7 +10,7 @@ import os
 # st.stop()  
 # -------------------------------------------------------------
 
-# И сразу ниже должен идти чистый запуск приложения:
+# И сразу ниже идет чистый запуск конфигурации страницы:
 st.set_page_config(
     page_title="US Real Estate Valuation & GIS Analytics",
     page_icon="🏡",
@@ -18,15 +18,36 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# --- БЕЗОПАСНАЯ ВСТАВКА МЕТА-ТЕГОВ ДЛЯ GOOGLE И TELDERI ЧЕРЕЗ JAVASCRIPT ---
+# Этот скрипт автоматически создаст нужные теги и внедрит их в <head> вашей страницы
+st.components.v1.html(
+    """
+    <script>
+        // Добавляем верификацию Google
+        var metaGoogle = document.createElement('meta');
+        metaGoogle.name = 'google-site-verification';
+        metaGoogle.content = '6j5YBxfJyC741bhKAcXqD8B1O25fhnPGByHAs1cQwcs';
+        window.parent.document.getElementsByTagName('head')[0].appendChild(metaGoogle);
 
-# ВСТАВКА ВЕРИФИКАЦИОННОГО МЕТА-ТЕГА ДЛЯ ТЕЛДЕРИ
-# Замените 'ВАШ_КОД_ИЗ_ТЕЛДЕРИ' на реальный проверочный код из личного кабинета
-st.markdown('<meta name="telderi" content="58955ad71f098f3b154a05a84f097332"/>', unsafe_allow_html=True)
+        // Добавляем верификацию Telderi
+        var metaTelderi = document.createElement('meta');
+        metaTelderi.name = 'telderi';
+        metaTelderi.content = '58955ad71f098f3b154a05a84f097332';
+        window.parent.document.getElementsByTagName('head')[0].appendChild(metaTelderi);
+    </script>
+    """,
+    height=0,
+    width=0
+)
 
+# Старую строчку st.markdown('<meta name="telderi"...') ниже можно удалить, 
+# так как JavaScript выше сделает её работу надежнее.
 
 # --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
 translations = {
     "English": {
+# ... далее ваш код продолжается без изменений
+
         "title": "🏡 US Real Estate Valuation Calculator",
         "subtitle": "Market Value Estimate & Smart GIS City Map",
         "info": "Enter property metrics. The interactive map will auto-center on the selected state and its sub-markets.",
