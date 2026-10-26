@@ -1,8 +1,18 @@
-# --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
 import streamlit as st
 import random
 import plotly.express as px
 import pandas as pd
+import requests
+
+# --- НАСТРОЙКА СТРАНИЦЫ ---
+st.set_page_config(
+    page_title="US Real Estate Valuation & GIS Analytics",
+    page_icon="🏡",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
 translations = {
     "English": {
         "title": "🏡 US Real Estate Valuation Calculator",
@@ -86,7 +96,7 @@ translations = {
         "city_2": "Periferia del Condado Norte",
         "city_3": "Sector Suburbano Este",
         "city_4": "Centro Industrial Sur",
-        "hover_price_str": "Price"
+        "hover_price_str": "Precio"
     },
     "Deutsch": {
         "title": "🏡 US-Immobilienbewertungsrechner",
@@ -114,7 +124,7 @@ translations = {
         "city_2": "Nördliche Randbezirke",
         "city_3": "Östlicher Vorortsektor",
         "city_4": "Südliches Industriezentrum",
-        "hover_price_str": "Price"
+        "hover_price_str": "Preis"
     },
     "中文": {
         "title": "🏡 美国房地产估值計算器",
@@ -142,19 +152,19 @@ translations = {
         "city_2": "北部县郊",
         "city_3": "东部郊区板块",
         "city_4": "南部工业枢纽",
-        "hover_price_str": "Price"
+        "hover_price_str": "价格"
     }
 }
 
-# --- ИНТЕРФЕЙС УПРАВЛЕНИЯ ЯЗЫКОМ ---
-lang = st.radio(
-    "🌐 Select Language / Выберите язык / Seleccione el idioma:", 
-    ["English", "Русский", "Español", "Deutsch", "中文"], 
-    horizontal=True
-)
+# --- ИНТЕРФЕЙС УПРАВЛЕНИЯ ЯЗЫКОМ В СЕЙДБАРЕ ---
+with st.sidebar:
+    lang = st.radio(
+        "🌐 Select Language / Выберите язык:", 
+        ["English", "Русский", "Español", "Deutsch", "中文"], 
+        horizontal=True
+    )
 t = translations[lang]
-
-# Базовые координаты (центроиды) и средняя стоимость за кв. фут для всех 50 штатов США
+# --- БАЗА ДАННЫХ КООРДИНАТ И ЦЕН ШТАТОВ (ПОЛНЫЙ СПИСОК 50 ШТАТОВ) ---
 state_data = {
     "AL (Alabama)": {"lat": 32.3182, "lon": -86.9023, "base_sqft": 145},
     "AK (Alaska)": {"lat": 63.5887, "lon": -154.4931, "base_sqft": 215},
@@ -174,144 +184,166 @@ state_data = {
     "KS (Kansas)": {"lat": 38.5266, "lon": -96.7265, "base_sqft": 165},
     "KY (Kentucky)": {"lat": 37.8393, "lon": -84.2700, "base_sqft": 150},
     "LA (Louisiana)": {"lat": 31.2448, "lon": -92.1450, "base_sqft": 170},
-    "ME (Maine)": {"lat": 45.2538, "lon": -69.4455, "base_sqft": 225},
+    "ME (Maine)": {"lat": 45.2538, "lon": -69.4455, "base_sqft": 210},
     "MD (Maryland)": {"lat": 39.0458, "lon": -76.6413, "base_sqft": 240},
-    "MA (Massachusetts)": {"lat": 42.4072, "lon": -71.3824, "base_sqft": 395},
+    "MA (Massachusetts)": {"lat": 42.4072, "lon": -71.3824, "base_sqft": 390},
     "MI (Michigan)": {"lat": 44.3148, "lon": -85.6024, "base_sqft": 175},
-    "MN (Minnesota)": {"lat": 45.6945, "lon": -93.9002, "base_sqft": 215},
-    "MS (Mississippi)": {"lat": 32.3547, "lon": -89.3985, "base_sqft": 135},
-    "MO (Missouri)": {"lat": 37.9643, "lon": -91.8318, "base_sqft": 165},
-    "MT (Montana)": {"lat": 46.8797, "lon": -110.3626, "base_sqft": 280},
-    "NE (Nebraska)": {"lat": 41.4925, "lon": -99.9018, "base_sqft": 180},
-    "NV (Nevada)": {"lat": 38.8026, "lon": -116.4194, "base_sqft": 285},
-    "NH (New Hampshire)": {"lat": 43.1939, "lon": -71.5724, "base_sqft": 255},
-    "NJ (New Jersey)": {"lat": 40.0583, "lon": -74.4057, "base_sqft": 315},
-    "NM (New Mexico)": {"lat": 34.9727, "lon": -105.0324, "base_sqft": 195},
-    "NY (New York)": {"lat": 43.2994, "lon": -74.2179, "base_sqft": 355},
-    "NC (North Carolina)": {"lat": 35.7596, "lon": -79.0193, "base_sqft": 220},
-    "ND (North Dakota)": {"lat": 47.5515, "lon": -101.0020, "base_sqft": 185},
-    "OH (Ohio)": {"lat": 40.4173, "lon": -82.9071, "base_sqft": 170},
-    "OK (Oklahoma)": {"lat": 35.0078, "lon": -97.0929, "base_sqft": 155},
-    "OR (Oregon)": {"lat": 43.8041, "lon": -120.5542, "base_sqft": 315},
-    "PA (Pennsylvania)": {"lat": 41.2033, "lon": -77.1945, "base_sqft": 200},
-    "RI (Rhode Island)": {"lat": 41.5801, "lon": -71.4774, "base_sqft": 290},
+    "MN (Minnesota)": {"lat": 46.7296, "lon": -94.6859, "base_sqft": 195},
+    "MS (Mississippi)": {"lat": 32.3547, "lon": -89.3985, "base_sqft": 125},
+    "MO (Missouri)": {"lat": 37.9643, "lon": -91.8318, "base_sqft": 155},
+    "MT (Montana)": {"lat": 46.8797, "lon": -110.3626, "base_sqft": 235},
+    "NE (Nebraska)": {"lat": 41.4925, "lon": -99.9018, "base_sqft": 170},
+    "NV (Nevada)": {"lat": 38.8026, "lon": -116.4194, "base_sqft": 255},
+    "NH (New Hampshire)": {"lat": 43.1939, "lon": -71.5724, "base_sqft": 230},
+    "NJ (New Jersey)": {"lat": 40.0583, "lon": -74.4057, "base_sqft": 290},
+    "NM (New Mexico)": {"lat": 34.5199, "lon": -105.8701, "base_sqft": 185},
+    "NY (New York)": {"lat": 43.2994, "lon": -74.2179, "base_sqft": 310},
+    "NC (North Carolina)": {"lat": 35.7596, "lon": -79.0193, "base_sqft": 210},
+    "ND (North Dakota)": {"lat": 47.5515, "lon": -101.0020, "base_sqft": 165},
+    "OH (Ohio)": {"lat": 40.4173, "lon": -82.9071, "base_sqft": 160},
+    "OK (Oklahoma)": {"lat": 35.0078, "lon": -97.0929, "base_sqft": 140},
+    "OR (Oregon)": {"lat": 43.8041, "lon": -120.5542, "base_sqft": 290},
+    "PA (Pennsylvania)": {"lat": 41.2033, "lon": -77.1945, "base_sqft": 185},
+    "RI (Rhode Island)": {"lat": 41.5801, "lon": -71.4774, "base_sqft": 275},
     "SC (South Carolina)": {"lat": 33.8361, "lon": -81.1637, "base_sqft": 195},
-    "SD (South Dakota)": {"lat": 44.3668, "lon": -100.3364, "base_sqft": 200},
-    "TN (Tennessee)": {"lat": 35.5175, "lon": -86.5804, "base_sqft": 205},
+    "SD (South Dakota)": {"lat": 44.3668, "lon": -100.3365, "base_sqft": 175},
+    "TN (Tennessee)": {"lat": 35.5175, "lon": -86.5804, "base_sqft": 190},
     "TX (Texas)": {"lat": 31.9686, "lon": -99.9018, "base_sqft": 185},
-    "UT (Utah)": {"lat": 39.3210, "lon": -111.0937, "base_sqft": 305},
-    "VT (Vermont)": {"lat": 44.5588, "lon": -72.5778, "base_sqft": 235},
-    "VA (Virginia)": {"lat": 37.4316, "lon": -78.6569, "base_sqft": 230},
-    "WA (Washington)": {"lat": 47.7511, "lon": -120.7401, "base_sqft": 365},
-    "WV (West Virginia)": {"lat": 38.5976, "lon": -80.4549, "base_sqft": 130},
-    "WI (Wisconsin)": {"lat": 43.7844, "lon": -88.7879, "base_sqft": 195},
-    "WY (Wyoming)": {"lat": 43.0760, "lon": -107.2903, "base_sqft": 255}
+    "UT (Utah)": {"lat": 39.3210, "lon": -111.0937, "base_sqft": 270},
+    "VT (Vermont)": {"lat": 44.5588, "lon": -72.5778, "base_sqft": 220},
+    "VA (Virginia)": {"lat": 37.4316, "lon": -78.6569, "base_sqft": 215},
+    "WA (Washington)": {"lat": 47.7511, "lon": -120.7401, "base_sqft": 340},
+    "WV (West Virginia)": {"lat": 38.5976, "lon": -80.4549, "base_sqft": 115},
+    "WI (Wisconsin)": {"lat": 43.7844, "lon": -88.7879, "base_sqft": 180},
+    "WY (Wyoming)": {"lat": 43.0760, "lon": -107.2903, "base_sqft": 210}
 }
 
-# Автоматически обновляем список выпадающего меню из всех 50 ключей
-states_list = list(state_data.keys())
+# --- ШАПКА ИНТЕРФЕЙСА ---
+st.title(t["title"])
+st.subheader(t["subtitle"])
+st.info(t["info"])
 
-states_list = list(state_data.keys())
-
-col_state, col_zip = st.columns(2)
-with col_state:
-    state = st.selectbox(t["lbl_state"], states_list)
-with col_zip:
-    zip_code = st.text_input(t["lbl_zip"], "78244")
-
-map_style = st.sidebar.selectbox(t["lbl_style"], ["open-street-map", "carto-positron", "carto-darkmatter"])
-
-col_bed, col_bath, col_sqft = st.columns(3)
-with col_bed:
-    bedrooms = st.number_input(t["lbl_bed"], min_value=1, max_value=10, value=3)
-with col_bath:
-    bathrooms = st.number_input(t["lbl_bath"], min_value=1.0, max_value=8.0, value=2.0, step=0.5)
-with col_sqft:
+# --- МАКЕТ СОДЕРЖИМОГО (САЙДБАР УПРАВЛЕНИЯ) ---
+with st.sidebar:
+    st.header("⚙️ Ввод параметров")
+    selected_state = st.selectbox(t["lbl_state"], list(state_data.keys()), index=4)
+    zip_code = st.text_input(t["lbl_zip"], "90210")
+    map_style = st.selectbox(t["lbl_style"], ["open-street-map", "carto-positron", "carto-darkmatter"])
+    
+    st.markdown("---")
+    bedrooms = st.number_input(t["lbl_bed"], min_value=0, max_value=10, value=3, step=1)
+    bathrooms = st.number_input(t["lbl_bath"], min_value=0.0, max_value=10.0, value=2.0, step=0.5)
     sqft = st.number_input(t["lbl_sqft"], min_value=100, max_value=20000, value=1800, step=50)
-if st.button(t["btn_calc"], type="primary"):
-    with st.spinner(t["spinner"]):
-        # Извлекаем базовую ставку для подстраховки
-        base_rate = state_data[state]["base_sqft"]
-        
-        # Настройка и отправка реального запроса к API
-        # Замените 'ВАШ_РЕАЛЬНЫЙ_КЛЮЧ_API' на вашу переменную или строку с ключом, если она называется иначе
-        api_key = "ВАШ_РЕАЛЬНЫЙ_КЛЮЧ_API" 
-        url = f"https://rentcast.io{zip_code}&bedrooms={bedrooms}&bathrooms={bathrooms}&squareFootage={sqft}"
-        headers = {
-            "accept": "application/json",
-            "X-Api-Key": api_key
-        }
-        
+    
+    calculate_btn = st.button(t["btn_calc"], type="primary")
+
+# Инициализация переменных сессии
+if "calculated" not in st.session_state:
+    st.session_state.calculated = False
+
+# --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
+def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
+    api_key = "YOUR_REAL_API_KEY"
+    url = f"https://rentcast.io{zip_code}&bedrooms={bedrooms}&bathrooms={bathrooms}&squareFootage={sqft}"
+    headers = {"accept": "application/json", "X-Api-Key": api_key}
+    
+    base_rate = state_data[state_name]["base_sqft"]
+    
+    if api_key != "YOUR_REAL_API_KEY":
         try:
-            response = requests.get(url, headers=headers, timeout=10)
-            res_data = response.json()
+            response = requests.get(url, headers=headers, timeout=5)
+            if response.status_code == 200:
+                data = response.json()
+                return data.get("price", sqft * base_rate), base_rate
+        except Exception:
+            pass
             
-            # Извлекаем реальную стоимость из ответа API (или считаем базовую при отсутствии ключа/данных)
-            market_value = res_data.get("price", int(sqft * base_rate + (bedrooms * 15000) + (bathrooms * 20000)))
-            final_rate = round(market_value / sqft, 2)
-            
-            # Извлекаем реальные координаты объекта из API, если они есть, иначе берем центр штата
-            latitude = res_data.get("latitude", state_data[state]["lat"])
-            longitude = res_data.get("longitude", state_data[state]["lon"])
-            
-        except Exception as e:
-            # Откат на базовый расчет в случае сбоя сети или лимитов API
-            market_value = int(sqft * base_rate + (bedrooms * 15000) + (bathrooms * 20000))
-            final_rate = round(market_value / sqft, 2)
-            latitude = state_data[state]["lat"]
-            longitude = state_data[state]["lon"]
-            
-        # Реальные показатели тренда (формируем для интерфейса)
-        trend_str = "+3.4%"  # Стабильный средний показатель, если API не отдает динамику
+    # Математическая модель-заглушка высокого качества
+    bed_bonus = bedrooms * 15000
+    bath_bonus = bathrooms * 20000
+    calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
+    random.seed(zip_code) 
+    calculated_price *= random.uniform(0.92, 1.08)
+    
+    return int(calculated_price), base_rate
+# Действие по нажатию кнопки
+if calculate_btn:
+    with st.spinner(t["spinner"]):
+        price, rate = fetch_valuation_data(selected_state, zip_code, bedrooms, bathrooms, sqft)
+        st.session_state.price = price
+        st.session_state.rate = rate
+        st.session_state.calculated = True
+
+# --- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
+if st.session_state.calculated:
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric(label=t["success"], value=f"${st.session_state.price:,.0f}")
+    with col2:
+        st.metric(label=t["rate"], value=f"${st.session_state.rate} / sq ft")
+    with col3:
+        random.seed(zip_code)
+        mock_trend = random.choice(["+2.4%", "+4.1%", "-1.2%", "+0.8%", "+5.3%"])
+        st.metric(label=t["trend"], value=mock_trend)
         
-        # Вывод результатов калькуляции
-        st.success(f"{t['success']} **${market_value:,}**")
-        
-        col_res1, col_res2 = st.columns(2)
-        with col_res1:
-            st.metric(label=t["rate"], value=f"${final_rate}/sq ft")
-            st.write(f"**{t['status']}** {t['status_val']}")
-        with col_res2:
-            st.metric(label=t["trend"], value=trend_str)
-            st.write(f"**{t['live']}** {t['live_val']}")
-            
-        # --- ГЕНЕРАЦИЯ РЕАЛЬНОЙ ГИС-КАРТЫ PLOTLY ---
-        st.subheader(t["map_title"])
-        
-        # Формируем карту, центрированную точно по координатам найденного объекта
-        map_data = [{
-            "Location": f"ZIP {zip_code} - Property Hub",
-            "Latitude": latitude,
-            "Longitude": longitude,
-            "Price": market_value
-        }]
-        
-        # Добавляем 3 соседние смоделированные точки для создания сетки суб-маркета вокруг реального объекта
-        for i, city_name in enumerate([t["city_2"], t["city_3"], t["city_4"]]):
-            map_data.append({
-                "Location": city_name,
-                "Latitude": latitude + (0.05 if i % 2 == 0 else -0.05),
-                "Longitude": longitude + (0.05 if i > 0 else -0.05),
-                "Price": int(market_value * (0.95 if i == 0 else 1.05))
-            })
-            
-        df = pd.DataFrame(map_data)
-        
-        fig = px.scatter_map(
-            df, 
-            lat="Latitude", 
-            lon="Longitude", 
-            size="Price", 
-            color="Price",
-            color_continuous_scale=px.colors.sequential.Plasma,
-            hover_name="Location", 
-            zoom=11,  # Увеличиваем масштаб, так как теперь есть точная точка объекта
-            title=f"{t['map_heatmap']} {state}"
-        )
-        
-        fig.update_layout(
-            map_style=map_style, 
-            margin={"r": 0, "t": 40, "l": 0, "b": 0},
-            coloraxis_colorbar=dict(title=t["hover_price_str"])
-        )
-        st.plotly_chart(fig, use_container_width=True)
+    st.markdown("---")
+    
+    meta_col1, meta_col2 = st.columns(2)
+    meta_col1.write(f"**{t['status']}** {t['status_val']}")
+    meta_col2.write(f"**{t['live']}** {t['live_val']}")
+
+# --- РАБОТА С ГИС КАРТОЙ (PLOTLY) ---
+st.markdown(f"### {t['map_title']}")
+
+center_lat = state_data[selected_state]["lat"]
+center_lon = state_data[selected_state]["lon"]
+base_price = state_data[selected_state]["base_sqft"] * sqft
+
+map_data = pd.DataFrame({
+    'City_Zone': [t["city_1"], t["city_2"], t["city_3"], t["city_4"]],
+    'lat': [center_lat, center_lat + 0.15, center_lat - 0.12, center_lat + 0.08],
+    'lon': [center_lon, center_lon - 0.18, center_lon + 0.22, center_lon + 0.05],
+    t["hover_price_str"]: [int(base_price * 1.1), int(base_price * 0.85), int(base_price * 0.95), int(base_price * 1.05)]
+})
+
+try:
+    fig = px.scatter_map(
+        map_data,
+        lat="lat",
+        lon="lon",
+        color=t["hover_price_str"],
+        size=t["hover_price_str"],
+        color_continuous_scale=px.colors.cyclical.IceFire,
+        size_max=25,
+        zoom=8,
+        title=f"{t['map_heatmap']} {selected_state}",
+        hover_name="City_Zone"
+    )
+    fig.update_layout(
+        map_style=map_style,
+        margin={"r":0,"t":40,"l":0,"b":0},
+        height=500
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+except AttributeError:
+    fig = px.scatter_mapbox(
+        map_data,
+        lat="lat",
+        lon="lon",
+        color=t["hover_price_str"],
+        size=t["hover_price_str"],
+        color_continuous_scale=px.colors.cyclical.IceFire,
+        size_max=25,
+        zoom=8,
+        title=f"{t['map_heatmap']} {selected_state}",
+        hover_name="City_Zone"
+    )
+    fig.update_layout(
+        mapbox_style=map_style,
+        margin={"r":0,"t":40,"l":0,"b":0},
+        height=500
+    )
+    st.plotly_chart(fig, use_container_width=True)
+except Exception as e:
+    st.error(f"{t['error']} {e}")
