@@ -1,4 +1,10 @@
 import streamlit as st
+
+# Перехватываем робота Google и отдаем ему то, что он просит
+if "google" in st.query_params:
+    st.write("google-site-verification: googlea1b2c3d4e5f6.html") # замените на текст внутри вашего файла
+    st.stop()
+import streamlit as st
 import random
 import plotly.express as px
 import pandas as pd
