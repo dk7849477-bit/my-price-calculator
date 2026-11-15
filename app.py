@@ -3,16 +3,7 @@ import random
 import plotly.express as px
 import pandas as pd
 import requests
-import os
 
-
-# --- ВСЕ ЭТИ СТРОЧКИ ДОЛЖНЫ БЫТЬ ЗАКОММЕНТИРОВАНЫ ИЛИ УДАЛЕНЫ ---
-# st.text("58955ad71f098f3b154a05a84f097332")
-# st.stop()  
-# -------------------------------------------------------------
-
-# И сразу ниже идет чистый запуск конфигурации страницы:
-# Найти эту строчку в вашем коде:
 st.set_page_config(
     page_title="US Real Estate Valuation & GIS Analytics",
     page_icon="🏡",
@@ -20,36 +11,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# СРАЗУ ПОД НЕЙ ВСТАВЬТЕ ЭТОТ БЛОК КОДА:
-st.logo(
-    "https://www.google-analytics.com/analytics.js", 
-    link="https://streamlit.app"
-)
-st.components.v1.html(
-    """
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://googletagmanager.com"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-SLZTci');
-    </script>
-    """,
-    height=0
-)
-
-# --- БЕЗОПАСНАЯ ВСТАВКА МЕТА-ТЕГОВ ДЛЯ GOOGLE И TELDERI ЧЕРЕЗ JAVASCRIPT ---
-# Этот скрипт автоматически создаст нужные теги и внедрит их в <head> вашей страницы
 st.components.v1.html(
     """
     <script>
-        // Добавляем верификацию Google
-        var metaGoogle = document.createElement('meta');
-        metaGoogle.name = 'google-site-verification';
-        metaGoogle.content = '6j5YBxfJyC741bhKAcXqD8B1O25fhnPGByHAs1cQwcs';
-        window.parent.document.getElementsByTagName('head')[0].appendChild(metaGoogle);
-
         // Добавляем верификацию Telderi
         var metaTelderi = document.createElement('meta');
         metaTelderi.name = 'telderi';
@@ -61,13 +25,10 @@ st.components.v1.html(
     width=0
 )
 
-# Старую строчку st.markdown('<meta name="telderi"...') ниже можно удалить, 
-# так как JavaScript выше сделает её работу надежнее.
-
 # --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
 translations = {
     "English": {
-# ... далее ваш код продолжается без изменений
+        
 
         "title": "🏡 US Real Estate Valuation Calculator",
         "subtitle": "Market Value Estimate & Smart GIS City Map",
