@@ -31,7 +31,58 @@ st.components.v1.html(
 )
 
 # --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
-translations = {
+translations = {   
+    "English": {
+        # ... ваши старые ключи ...
+        "insights_title": "📊 US Housing Market Insights & Facts",
+        "fact_1_title": "📈 Price Trends & Seasonality",
+        "fact_1_text": "US home prices historically peak between May and July (+3–5% above winter averages). Suburban markets with strong remote-work infrastructure continue to outpace dense urban cores.",
+        "fact_2_title": "🏦 Mortgage Rates Impact",
+        "fact_2_text": "Every 1% drop in 30-year fixed mortgage rates typically increases buyer purchasing power by ~10%, driving higher demand and faster price growth in mid-tier states.",
+        "fact_3_title": "🏡 What Adds the Most Value?",
+        "fact_3_text": "In the US market, usable square footage and bathroom count carry the highest valuation weight. Kitchen remodels and energy-efficient HVAC systems return up to 70–80% of their cost."
+    },
+    "Русский": {
+        # ... ваши старые ключи ...
+        "insights_title": "📊 Аналитика и интересные факты о жилье в США",
+        "fact_1_title": "📈 Динамика цен и сезонность",
+        "fact_1_text": "Цены на жильё в США традиционно достигают пика с мая по июль (+3–5% к зимним показателям). Пригороды с развитой инфраструктурой для удалённой работы растут быстрее мегаполисов.",
+        "fact_2_title": "🏦 Влияние ипотечных ставок",
+        "fact_2_text": "Снижение ставки по 30-летней фиксированной ипотеке всего на 1% увеличивает покупательную способность на ~10%, что напрямую подталкивает рыночную стоимость домов вверх.",
+        "fact_3_title": "🏡 Что сильнее всего повышает цену?",
+        "fact_3_text": "В США ключевой фактор оценки — жилая площадь (без учёта подвалов и гаражей) и число ванных комнат. Обновление кухни и системы климат-контроля окупается на 70–80%."
+    },
+    "Español": {
+        # ... ваши старые ключи ...
+        "insights_title": "📊 Datos y Tendencias del Mercado Inmobiliario en EE. UU.",
+        "fact_1_title": "📈 Tendencias de Precios y Estacionalidad",
+        "fact_1_text": "Los precios en EE. UU. suelen alcanzar su punto máximo entre mayo y julio (+3–5% sobre el invierno). Los suburbios con buena conectividad siguen creciendo más rápido que los centros urbanos.",
+        "fact_2_title": "🏦 Impacto de las Tasas Hipotecarias",
+        "fact_2_text": "Cada caída del 1% en la tasa hipotecaria fija a 30 años aumenta el poder adquisitivo en un ~10%, impulsando la demanda y el valor de las propiedades.",
+        "fact_3_title": "🏡 ¿Qué Aporta Más Valor?",
+        "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo."
+    },
+    "Deutsch": {
+        # ... ваши старые ключи ...
+        "insights_title": "📊 US-Immobilienmarkt: Trends & Wissenswertes",
+        "fact_1_title": "📈 Preisentwicklung & Saisonalität",
+        "fact_1_text": "US-Immobilienpreise erreichen zwischen Mai und Juli oft ihren Höchststand (+3–5 % gegenüber dem Winter). Vororte mit guter Infrastruktur wachsen weiterhin schneller als Innenstädte.",
+        "fact_2_title": "🏦 Einfluss der Hypothekenzinsen",
+        "fact_2_text": "Jeder Rückgang der 30-jährigen Festzins-Hypothek um 1 % steigert die Kaufkraft der Käufer um rund 10 % und sorgt für steigende Immobilienwerte.",
+        "fact_3_title": "🏡 Was steigert den Wert am meisten?",
+        "fact_3_text": "Wohnfläche und Anzahl der Badezimmer haben das größte Gewicht bei der Bewertung. Küchenrenovierungen und moderne Klimaanlagen (HVAC) amortisieren sich zu 70–80 %."
+    },
+    "中文": {
+        # ... ваши старые ключи ...
+        "insights_title": "📊 美国房地产市场洞察与趣闻",
+        "fact_1_title": "📈 价格走势与季节性规律",
+        "fact_1_text": "美国房价通常在每年5月至7月达到峰值（比冬季高出3%–5%）。适合远程办公的郊区市场涨幅持续领跑传统市中心。",
+        "fact_2_title": "🏦 房贷利率的影响",
+        "fact_2_text": "30年期固定房贷利率每下降1%，购房者的购买力平均提升约10%，从而直接推高房价与市场需求。",
+        "fact_3_title": "🏡 哪些因素最能提升房产价值？",
+        "fact_3_text": "在美国，实用居住面积和浴室数量在估值中占比最高。厨房翻新和高效节能空调系统（HVAC）通常可收回70%–80%的改造成本。"
+    }
+
         "English": {
         # ... ваши старые ключи ...
         "lbl_age": "Property Age (years):",
@@ -562,3 +613,36 @@ except AttributeError:
     st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
     st.error(f"{t['error']} {e}")
+# --- БЛОК СВЕДЕНИЙ И ФАКТОВ О РЫНКЕ ЖИЛЬЯ США ---
+st.markdown("---")
+st.markdown(f"### {t.get('insights_title', '📊 US Housing Market Insights & Facts')}")
+
+# Вычисляем статистику по всем 50 штатам прямо из вашего словаря state_data
+all_rates = [info["base_sqft"] for info in state_data.values()]
+avg_us_sqft = sum(all_rates) / len(all_rates)
+max_state = max(state_data.items(), key=lambda x: x[1]["base_sqft"])
+min_state = min(state_data.items(), key=lambda x: x[1]["base_sqft"])
+
+# Верхняя строка: динамические метрики по базе штатов (переводятся в м² при выборе м²)
+stat_col1, stat_col2, stat_col3 = st.columns(3)
+if is_sqm:
+    stat_col1.metric("🇺🇸 US Average / m²", f"${int(round(avg_us_sqft * SQFT_IN_SQM)):,}")
+    stat_col2.metric(f"💎 Highest ({max_state[0].split()[0]})", f"${int(round(max_state[1]['base_sqft'] * SQFT_IN_SQM)):,} / m²")
+    stat_col3.metric(f"🏷️ Most Affordable ({min_state[0].split()[0]})", f"${int(round(min_state[1]['base_sqft'] * SQFT_IN_SQM)):,} / m²")
+else:
+    stat_col1.metric("🇺🇸 US Average / sq ft", f"${int(round(avg_us_sqft)):,}")
+    stat_col2.metric(f"💎 Highest ({max_state[0].split()[0]})", f"${max_state[1]['base_sqft']:,} / sq ft")
+    stat_col3.metric(f"🏷️ Most Affordable ({min_state[0].split()[0]})", f"${min_state[1]['base_sqft']:,} / sq ft")
+
+# Нижняя строка: 3 карточки с фактами и аналитикой
+fact_col1, fact_col2, fact_col3 = st.columns(3)
+
+with fact_col1:
+    st.info(f"**{t.get('fact_1_title', '📈 Price Trends')}**\n\n{t.get('fact_1_text', '')}")
+
+with fact_col2:
+    st.info(f"**{t.get('fact_2_title', '🏦 Mortgage Rates')}**\n\n{t.get('fact_2_text', '')}")
+
+with fact_col3:
+    st.info(f"**{t.get('fact_3_title', '🏡 Value Drivers')}**\n\n{t.get('fact_3_text', '')}")
+
