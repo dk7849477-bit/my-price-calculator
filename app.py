@@ -359,10 +359,9 @@ property_age = st.number_input(
 calculate_btn = st.button(t["btn_calc"], type="primary")
 
 # --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
-def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
+def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft, property_age=None):
     api_key = "YOUR_REAL_API_KEY"
     
-    # Формируем URL динамически, добавляя спальни и ванные только если они указаны
     url = f"https://rentcast.io{zip_code}&squareFootage={int(sqft)}"
     if bedrooms is not None:
         url += f"&bedrooms={bedrooms}"
@@ -381,6 +380,26 @@ def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
         except Exception:
             pass
             
+    bed_bonus = (bedrooms * 15000) if bedrooms is not None else 0
+    bath_bonus = (bathrooms * 20000) if bathrooms is not None else 0
+    
+    calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
+    
+    # Учёт возраста жилья (если указан)
+    if property_age is not None:
+        if property_age <= 5:
+            calculated_price *= 1.05       # Новостройки (+5%)
+        elif property_age <= 50:
+            # Небольшой износ, но не ниже -10%
+            calculated_price *= max(0.90, 1.0 - (property_age * 0.002))
+        elif property_age > 80:
+            calculated_price *= 1.08       # Историческая недвижимость (+8%)
+
+    random.seed(zip_code) 
+    calculated_price *= random.uniform(0.92, 1.08)
+    
+    return int(calculated_price), base_rate
+
     # Математическая модель-заглушка (учитывает спальни/ванные, только если они введены)
     bed_bonus = (bedrooms * 15000) if bedrooms is not None else 0
     bath_bonus = (bathrooms * 20000) if bathrooms is not None else 0
