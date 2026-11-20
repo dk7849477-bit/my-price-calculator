@@ -55,13 +55,13 @@ translations = {
         "lbl_age": "Alter der Immobilie (Jahre):",
         "age_placeholder": "Optional",
         "age_help": "Manchmal sind die neuesten Häuser nicht die teuersten (historischer Charme oder etablierte Lagen können höher bewertet werden)."
-    },
+    }, 
     "中文": {
         # ... ваши старые ключи ...
         "lbl_age": "房龄（年）：",
         "age_placeholder": "选填",
         "age_help": "有时最新的房子并不是最贵的（历史底蕴、核心地段或成熟社区往往价值更高）。"
-    }
+    },
 
     "English": {
         "title": "🏡 US Real Estate Valuation Calculator",
