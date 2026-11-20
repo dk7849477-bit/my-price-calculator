@@ -296,149 +296,176 @@ calculate_btn = st.button(t["btn_calc"], type="primary")
 if "calculated" not in st.session_state:
     st.session_state.calculated = False
 
-#--- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
-
+# --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
-api_key = "YOUR_REAL_API_KEY"
-url = f"https://rentcast.io{zip_code}&bedrooms={bedrooms}&bathrooms={bathrooms}&squareFootage={int(sqft)}"
-headers = {"accept": "application/json", "X-Api-Key": api_key}
-base_rate = state_data[state_name]["base_sqft"]
-if api_key != "YOUR_REAL_API_KEY":
-try:
-response = requests.get(url, headers=headers, timeout=5)
-if response.status_code == 200:
-data = response.json()
-return data.get("price", sqft * base_rate), base_rate
-except Exception:
-pass
-# Математическая модель-заглушка высокого качества
-bed_bonus = bedrooms * 15000
-bath_bonus = bathrooms * 20000
-calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
-random.seed(zip_code)
-calculated_price *= random.uniform(0.92, 1.08)
-return int(calculated_price), base_rate
+    api_key = "YOUR_REAL_API_KEY"
+    url = f"https://rentcast.io{zip_code}&bedrooms={bedrooms}&bathrooms={bathrooms}&squareFootage={int(sqft)}"
+    headers = {"accept": "application/json", "X-Api-Key": api_key}
+    
+    base_rate = state_data[state_name]["base_sqft"]
+    
+    if api_key != "YOUR_REAL_API_KEY":
+        try:
+            response = requests.get(url, headers=headers, timeout=5)
+            if response.status_code == 200:
+                data = response.json()
+                return data.get("price", sqft * base_rate), base_rate
+        except Exception:
+            pass
+            
+    # Математическая модель-заглушка высокого качества
+    bed_bonus = bedrooms * 15000
+    bath_bonus = bathrooms * 20000
+    calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
+    random.seed(zip_code) 
+    calculated_price *= random.uniform(0.92, 1.08)
+    
+    return int(calculated_price), base_rate
 
-#Действие по нажатию кнопки
-
+# Действие по нажатию кнопки
 if calculate_btn:
-with st.spinner(t["spinner"]):
-price, rate = fetch_valuation_data(selected_state, zip_code, bedrooms, bathrooms, sqft)
-st.session_state.price = price
-st.session_state.rate_sqft = rate
-st.session_state.calculated = True
+    with st.spinner(t["spinner"]):
+        price, rate = fetch_valuation_data(selected_state, zip_code, bedrooms, bathrooms, sqft)
+        st.session_state.price = price
+        st.session_state.rate = rate
+        st.session_state.calculated = True
 
-#--- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
-
+# --- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
 if st.session_state.calculated:
-# Актуальная базовая ставка выбранного штата (обновляется мгновенно при смене единицы измерения)
-current_base_sqft = state_data[selected_state]["base_sqft"]
-if is_sqm:
-display_rate = f"${int(round(current_base_sqft * SQFT_IN_SQM)):,} / m²"
-rate_label = t["rate_sqm"]
-else:
-display_rate = f"${current_base_sqft:,} / sq ft"
-rate_label = t["rate_sqft"]
-col1, col2, col3 = st.columns(3)
-with col1:
-st.metric(label=t["success"], value=f"${st.session_state.price:,.0f}")
-with col2:
-st.metric(label=rate_label, value=display_rate)
-with col3:
-random.seed(zip_code)
-mock_trend = random.choice(["+2.4%", "+4.1%", "-1.2%", "+0.8%", "+5.3%"])
-st.metric(label=t["trend"], value=mock_trend)
-st.markdown("---")
-meta_col1, meta_col2 = st.columns(2)
-meta_col1.write(f"{t['status']} {t['status_val']}")
-meta_col2.write(f"{t['live']} {t['live_val']}")
+    current_base_sqft = state_data[selected_state]["base_sqft"]
+    
+    if is_sqm:
+        display_rate = f"${int(round(current_base_sqft * SQFT_IN_SQM)):,} / m²"
+        rate_label = t.get("rate_sqm", "📊 Средняя цена за м²:")
+    else:
+        display_rate = f"${current_base_sqft:,} / sq ft"
+        rate_label = t.get("rate_sqft", t.get("rate", "📊 Средняя цена за sq ft:"))
 
-#--- РАБОТА С ГИС КАРТОЙ (PLOTLY) ---
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric(label=t["success"], value=f"${st.session_state.price:,.0f}")
+    with col2:
+        st.metric(label=rate_label, value=display_rate)
+    with col3:
+        random.seed(zip_code)
+        mock_trend = random.choice(["+2.4%", "+4.1%", "-1.2%", "+0.8%", "+5.3%"])
+        st.metric(label=t["trend"], value=mock_trend)
+        
+    st.markdown("---")
+    
+    meta_col1, meta_col2 = st.columns(2)
+    meta_col1.write(f"**{t['status']}** {t['status_val']}")
+    meta_col2.write(f"**{t['live']}** {t['live_val']}")
 
+# --- РАБОТА С ГИС КАРТОЙ (PLOTLY) ---
 st.markdown(f"### {t['map_title']}")
+
 state_cities = {
-"CA (California)": {
-"names": ["Los Angeles", "San Francisco", "San Diego", "Sacramento"],
-"lats": [34.0522, 37.7749, 32.7157, 38.5816],
-"lons": [-118.2437, -122.4194, -117.1611, -121.4944],
-"multipliers": [1.3, 1.5, 1.1, 0.85]
-},
-"NY (New York)": {
-"names": ["New York City", "Buffalo", "Rochester", "Albany"],
-"lats": [40.7128, 42.8864, 43.1566, 42.6526],
-"lons": [-74.0060, -78.8784, -77.6088, -73.7562],
-"multipliers": [1.8, 0.7, 0.75, 0.85]
-},
-"TX (Texas)": {
-"names": ["Houston", "Austin", "Dallas", "San Antonio"],
-"lats": [29.7604, 30.2672, 32.7767, 29.4241],
-"lons": [-95.3698, -97.7431, -96.7970, -98.4936],
-"multipliers": [1.0, 1.3, 1.1, 0.9]
-},
-"FL (Florida)": {
-"names": ["Miami", "Orlando", "Tampa", "Jacksonville"],
-"lats": [25.7617, 28.5383, 27.9506, 30.3322],
-"lons": [-80.1918, -81.3792, -82.4572, -81.6557],
-"multipliers": [1.4, 1.1, 1.0, 0.8]
+    "CA (California)": {
+        "names": ["Los Angeles", "San Francisco", "San Diego", "Sacramento"],
+        "lats": [34.0522, 37.7749, 32.7157, 38.5816],
+        "lons": [-118.2437, -122.4194, -117.1611, -121.4944],
+        "multipliers": [1.3, 1.5, 1.1, 0.85]
+    },
+    "NY (New York)": {
+        "names": ["New York City", "Buffalo", "Rochester", "Albany"],
+        "lats": [40.7128, 42.8864, 43.1566, 42.6526],
+        "lons": [-74.0060, -78.8784, -77.6088, -73.7562],
+        "multipliers": [1.8, 0.7, 0.75, 0.85]
+    },
+    "TX (Texas)": {
+        "names": ["Houston", "Austin", "Dallas", "San Antonio"],
+        "lats": [29.7604, 30.2672, 32.7767, 29.4241],
+        "lons": [-95.3698, -97.7431, -96.7970, -98.4936],
+        "multipliers": [1.0, 1.3, 1.1, 0.9]
+    },
+    "FL (Florida)": {
+        "names": ["Miami", "Orlando", "Tampa", "Jacksonville"],
+        "lats": [25.7617, 28.5383, 27.9506, 30.3322],
+        "lons": [-80.1918, -81.3792, -82.4572, -81.6557],
+        "multipliers": [1.4, 1.1, 1.0, 0.8]
+    }
 }
-}
+
 center_lat = state_data[selected_state]["lat"]
 center_lon = state_data[selected_state]["lon"]
-base_price = state_data[selected_state]["base_sqft"] * sqft
+base_sqft_rate = state_data[selected_state]["base_sqft"]
+base_price = base_sqft_rate * sqft
+
+unit_col_name = t.get("hover_rate_sqm", "Avg / m² ($)") if is_sqm else t.get("hover_rate_sqft", "Avg / sq ft ($)")
+unit_multiplier = SQFT_IN_SQM if is_sqm else 1.0
+
 if selected_state in state_cities:
-cities_info = state_cities[selected_state]
-map_data = pd.DataFrame({
-'City_Zone': cities_info["names"],
-'lat': cities_info["lats"],
-'lon': cities_info["lons"],
-t["hover_price_str"]: [int(base_price * m) for m in cities_info["multipliers"]]
-})
-dynamic_zoom = 5
+    cities_info = state_cities[selected_state]
+    map_data = pd.DataFrame({
+        'City_Zone': cities_info["names"],
+        'lat': cities_info["lats"],
+        'lon': cities_info["lons"],
+        t["hover_price_str"]: [int(base_price * m) for m in cities_info["multipliers"]],
+        unit_col_name: [int(round(base_sqft_rate * m * unit_multiplier)) for m in cities_info["multipliers"]]
+    })
+    dynamic_zoom = 5
 else:
-map_data = pd.DataFrame({
-'City_Zone': [t["city_1"], t["city_2"], t["city_3"], t["city_4"]],
-'lat': [center_lat, center_lat + 0.8, center_lat - 0.6, center_lat + 0.4],
-'lon': [center_lon, center_lon - 0.9, center_lon + 1.1, center_lon + 0.3],
-t["hover_price_str"]: [int(base_price * 1.1), int(base_price * 0.85), int(base_price * 0.95), int(base_price * 1.05)]
-})
-dynamic_zoom = 6
+    default_multipliers = [1.1, 0.85, 0.95, 1.05]
+    map_data = pd.DataFrame({
+        'City_Zone': [t["city_1"], t["city_2"], t["city_3"], t["city_4"]],
+        'lat': [center_lat, center_lat + 0.8, center_lat - 0.6, center_lat + 0.4],
+        'lon': [center_lon, center_lon - 0.9, center_lon + 1.1, center_lon + 0.3],
+        t["hover_price_str"]: [int(base_price * m) for m in default_multipliers],
+        unit_col_name: [int(round(base_sqft_rate * m * unit_multiplier)) for m in default_multipliers]
+    })
+    dynamic_zoom = 6
+
 try:
-fig = px.scatter_map(
-map_data,
-lat="lat",
-lon="lon",
-color=t["hover_price_str"],
-size=t["hover_price_str"],
-color_continuous_scale=px.colors.sequential.Plasma,
-size_max=30,
-zoom=dynamic_zoom,
-title=f"{t['map_heatmap']} {selected_state}",
-hover_name="City_Zone"
-)
-fig.update_layout(
-map_style=map_style,
-margin={"r":0,"t":40,"l":0,"b":0},
-height=600
-)
-st.plotly_chart(fig, use_container_width=True)
+    fig = px.scatter_map(
+        map_data,
+        lat="lat",
+        lon="lon",
+        color=unit_col_name,
+        size=unit_col_name,
+        color_continuous_scale=px.colors.sequential.Plasma,
+        size_max=30,
+        zoom=dynamic_zoom,
+        title=f"{t['map_heatmap']} {selected_state}",
+        hover_name="City_Zone",
+        hover_data={
+            "lat": False,
+            "lon": False,
+            unit_col_name: ":$,",
+            t["hover_price_str"]: ":$,",
+        }
+    )
+    fig.update_layout(
+        map_style=map_style,
+        margin={"r":0,"t":40,"l":0,"b":0},
+        height=600
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
 except AttributeError:
-fig = px.scatter_mapbox(
-map_data,
-lat="lat",
-lon="lon",
-color=t["hover_price_str"],
-size=t["hover_price_str"],
-color_continuous_scale=px.colors.sequential.Plasma,
-size_max=30,
-zoom=dynamic_zoom,
-title=f"{t['map_heatmap']} {selected_state}",
-hover_name="City_Zone"
-)
-fig.update_layout(
-mapbox_style=map_style,
-margin={"r":0,"t":40,"l":0,"b":0},
-height=600
-)
-st.plotly_chart(fig, use_container_width=True)
+    fig = px.scatter_mapbox(
+        map_data,
+        lat="lat",
+        lon="lon",
+        color=unit_col_name,
+        size=unit_col_name,
+        color_continuous_scale=px.colors.sequential.Plasma,
+        size_max=30,
+        zoom=dynamic_zoom,
+        title=f"{t['map_heatmap']} {selected_state}",
+        hover_name="City_Zone",
+        hover_data={
+            "lat": False,
+            "lon": False,
+            unit_col_name: ":$,",
+            t["hover_price_str"]: ":$,",
+        }
+    )
+    fig.update_layout(
+        mapbox_style=map_style,
+        margin={"r":0,"t":40,"l":0,"b":0},
+        height=600
+    )
+    st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
-st.error(f"{t['error']} {e}")
+    st.error(f"{t['error']} {e}")
