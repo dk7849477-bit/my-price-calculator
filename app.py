@@ -31,104 +31,7 @@ st.components.v1.html(
 )
 
 # --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
-translations = {   
-    "English": {
-        # ... ваши старые ключи ...
-        "insights_title": "📊 US Housing Market Insights & Facts",
-        "fact_1_title": "📈 Price Trends & Seasonality",
-        "fact_1_text": "US home prices historically peak between May and July (+3–5% above winter averages). Suburban markets with strong remote-work infrastructure continue to outpace dense urban cores.",
-        "fact_2_title": "🏦 Mortgage Rates Impact",
-        "fact_2_text": "Every 1% drop in 30-year fixed mortgage rates typically increases buyer purchasing power by ~10%, driving higher demand and faster price growth in mid-tier states.",
-        "fact_3_title": "🏡 What Adds the Most Value?",
-        "fact_3_text": "In the US market, usable square footage and bathroom count carry the highest valuation weight. Kitchen remodels and energy-efficient HVAC systems return up to 70–80% of their cost.",
-"stat_avg": "🇺🇸 US Average",
-"stat_max": "💎 Highest",
-"stat_min": "🏷️ Most Affordable"
-   },
-    "Русский": {
-        # ... ваши старые ключи ...
-        "insights_title": "📊 Аналитика и интересные факты о жилье в США",
-        "fact_1_title": "📈 Динамика цен и сезонность",
-        "fact_1_text": "Цены на жильё в США традиционно достигают пика с мая по июль (+3–5% к зимним показателям). Пригороды с развитой инфраструктурой для удалённой работы растут быстрее мегаполисов.",
-        "fact_2_title": "🏦 Влияние ипотечных ставок",
-        "fact_2_text": "Снижение ставки по 30-летней фиксированной ипотеке всего на 1% увеличивает покупательную способность на ~10%, что напрямую подталкивает рыночную стоимость домов вверх.",
-        "fact_3_title": "🏡 Что сильнее всего повышает цену?",
-        "fact_3_text": "В США ключевой фактор оценки — жилая площадь (без учёта подвалов и гаражей) и число ванных комнат. Обновление кухни и системы климат-контроля окупается на 70–80%.",
-"stat_avg": "🇺🇸 Средняя по США",
-"stat_max": "💎 Самый дорогой",
-"stat_min": "🏷️ Самый доступный"
-    },
-    "Español": {
-        # ... ваши старые ключи ...
-        "insights_title": "📊 Datos y Tendencias del Mercado Inmobiliario en EE. UU.",
-        "fact_1_title": "📈 Tendencias de Precios y Estacionalidad",
-        "fact_1_text": "Los precios en EE. UU. suelen alcanzar su punto máximo entre mayo y julio (+3–5% sobre el invierno). Los suburbios con buena conectividad siguen creciendo más rápido que los centros urbanos.",
-        "fact_2_title": "🏦 Impacto de las Tasas Hipotecarias",
-        "fact_2_text": "Cada caída del 1% en la tasa hipotecaria fija a 30 años aumenta el poder adquisitivo en un ~10%, impulsando la demanda y el valor de las propiedades.",
-        "fact_3_title": "🏡 ¿Qué Aporta Más Valor?",
-        "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo.",
-"stat_avg": "🇺🇸 Promedio en EE. UU.",
-"stat_max": "💎 Más caro",
-"stat_min": "🏷️ Más asequible"
-    },
-    "Deutsch": {
-        # ... ваши старые ключи ...
-        "insights_title": "📊 US-Immobilienmarkt: Trends & Wissenswertes",
-        "fact_1_title": "📈 Preisentwicklung & Saisonalität",
-        "fact_1_text": "US-Immobilienpreise erreichen zwischen Mai und Juli oft ihren Höchststand (+3–5 % gegenüber dem Winter). Vororte mit guter Infrastruktur wachsen weiterhin schneller als Innenstädte.",
-        "fact_2_title": "🏦 Einfluss der Hypothekenzinsen",
-        "fact_2_text": "Jeder Rückgang der 30-jährigen Festzins-Hypothek um 1 % steigert die Kaufkraft der Käufer um rund 10 % und sorgt für steigende Immobilienwerte.",
-        "fact_3_title": "🏡 Was steigert den Wert am meisten?",
-        "fact_3_text": "Wohnfläche und Anzahl der Badezimmer haben das größte Gewicht bei der Bewertung. Küchenrenovierungen und moderne Klimaanlagen (HVAC) amortisieren sich zu 70–80 %.",
-"stat_avg": "🇺🇸 US-Durchschnitt",
-"stat_max": "💎 Am teuersten",
-"stat_min": "🏷️ Am günstigsten"
-    },
-    "中文": {
-        # ... ваши старые ключи ...
-        "insights_title": "📊 美国房地产市场洞察与趣闻",
-        "fact_1_title": "📈 价格走势与季节性规律",
-        "fact_1_text": "美国房价通常在每年5月至7月达到峰值（比冬季高出3%–5%）。适合远程办公的郊区市场涨幅持续领跑传统市中心。",
-        "fact_2_title": "🏦 房贷利率的影响",
-        "fact_2_text": "30年期固定房贷利率每下降1%，购房者的购买力平均提升约10%，从而直接推高房价与市场需求。",
-        "fact_3_title": "🏡 哪些因素最能提升房产价值？",
-        "fact_3_text": "在美国，实用居住面积和浴室数量在估值中占比最高。厨房翻新和高效节能空调系统（HVAC）通常可收回70%–80%的改造成本。",
-"stat_avg": "🇺🇸 全美平均",
-"stat_max": "💎 最高价州",
-"stat_min": "🏷️ 最实惠州"
-    },
-
-        "English": {
-        # ... ваши старые ключи ...
-        "lbl_age": "Property Age (years):",
-        "age_placeholder": "Optional",
-        "age_help": "Sometimes the newest homes are not the most expensive (historic charm, prime location, or mature neighborhoods can value higher)."
-    },
-    "Русский": {
-        # ... ваши старые ключи ...
-        "lbl_age": "Возраст жилья (лет):",
-        "age_placeholder": "Необязательно",
-        "age_help": "Порой самые молодые дома не самые дорогие (историческая ценность, престижный район или развитая инфраструктура могут цениться выше)."
-    },
-    "Español": {
-        # ... ваши старые ключи ...
-        "lbl_age": "Antigüedad de la propiedad (años):",
-        "age_placeholder": "Opcional",
-        "age_help": "A veces las casas más nuevas no son las más caras (el valor histórico o la ubicación consolidada pueden cotizarse más alto)."
-    },
-    "Deutsch": {
-        # ... ваши старые ключи ...
-        "lbl_age": "Alter der Immobilie (Jahre):",
-        "age_placeholder": "Optional",
-        "age_help": "Manchmal sind die neuesten Häuser nicht die teuersten (historischer Charme oder etablierte Lagen können höher bewertet werden)."
-    }, 
-    "中文": {
-        # ... ваши старые ключи ...
-        "lbl_age": "房龄（年）：",
-        "age_placeholder": "选填",
-        "age_help": "有时最新的房子并不是最贵的（历史底蕴、核心地段或成熟社区往往价值更高）。"
-    },
-
+translations = {
     "English": {
         "title": "🏡 US Real Estate Valuation Calculator",
         "subtitle": "Market Value Estimate & Smart GIS City Map",
@@ -160,7 +63,20 @@ translations = {
         "city_2": "North County Outskirts",
         "city_3": "East Suburban Sector",
         "city_4": "South Industrial Hub",
-        "hover_price_str": "Price"
+        "hover_price_str": "Price",
+        "lbl_age": "Property Age (years):",
+        "age_placeholder": "Optional",
+        "age_help": "Sometimes the newest homes are not the most expensive (historic charm, prime location, or mature neighborhoods can value higher).",
+        "insights_title": "📊 US Housing Market Insights & Facts",
+        "fact_1_title": "📈 Price Trends & Seasonality",
+        "fact_1_text": "US home prices historically peak between May and July (+3–5% above winter averages). Suburban markets with strong remote-work infrastructure continue to outpace dense urban cores.",
+        "fact_2_title": "🏦 Mortgage Rates Impact",
+        "fact_2_text": "Every 1% drop in 30-year fixed mortgage rates typically increases buyer purchasing power by ~10%, driving higher demand and faster price growth in mid-tier states.",
+        "fact_3_title": "🏡 What Adds the Most Value?",
+        "fact_3_text": "In the US market, usable square footage and bathroom count carry the highest valuation weight. Kitchen remodels and energy-efficient HVAC systems return up to 70–80% of their cost.",
+        "stat_avg": "🇺🇸 US Average",
+        "stat_max": "💎 Highest",
+        "stat_min": "🏷️ Most Affordable"
     },
     "Русский": {
         "title": "🏡 Калькулятор стоимости недвижимости в США",
@@ -193,7 +109,20 @@ translations = {
         "city_2": "Северный округ мегаполиса",
         "city_3": "Восточный пригородный сектор",
         "city_4": "Южный индустриальный хаб",
-        "hover_price_str": "Цена"
+        "hover_price_str": "Цена",
+        "lbl_age": "Возраст жилья (лет):",
+        "age_placeholder": "Необязательно",
+        "age_help": "Порой самые молодые дома не самые дорогие (историческая ценность, престижный район или развитая инфраструктура могут цениться выше).",
+        "insights_title": "📊 Аналитика и интересные факты о жилье в США",
+        "fact_1_title": "📈 Динамика цен и сезонность",
+        "fact_1_text": "Цены на жильё в США традиционно достигают пика с мая по июль (+3–5% к зимним показателям). Пригороды с развитой инфраструктурой для удалённой работы растут быстрее мегаполисов.",
+        "fact_2_title": "🏦 Влияние ипотечных ставок",
+        "fact_2_text": "Снижение ставки по 30-летней фиксированной ипотеке всего на 1% увеличивает покупательную способность на ~10%, что напрямую подталкивает рыночную стоимость домов вверх.",
+        "fact_3_title": "🏡 Что сильнее всего повышает цену?",
+        "fact_3_text": "В США ключевой фактор оценки — жилая площадь (без учёта подвалов и гаражей) и число ванных комнат. Обновление кухни и системы климат-контроля окупается на 70–80%.",
+        "stat_avg": "🇺🇸 Средняя по США",
+        "stat_max": "💎 Самый дорогой",
+        "stat_min": "🏷️ Самый доступный"
     },
     "Español": {
         "title": "🏡 Calculadora de Valoración de Bienes Raíces en EE. UU.",
@@ -226,7 +155,20 @@ translations = {
         "city_2": "Periferia del Condado Norte",
         "city_3": "Sector Suburbano Este",
         "city_4": "Centro Industrial Sur",
-        "hover_price_str": "Precio"
+        "hover_price_str": "Precio",
+        "lbl_age": "Antigüedad de la propiedad (años):",
+        "age_placeholder": "Opcional",
+        "age_help": "A veces las casas más nuevas no son las más caras (el valor histórico o la ubicación consolidada pueden cotizarse más alto).",
+        "insights_title": "📊 Datos y Tendencias del Mercado Inmobiliario en EE. UU.",
+        "fact_1_title": "📈 Tendencias de Precios y Estacionalidad",
+        "fact_1_text": "Los precios en EE. UU. suelen alcanzar su punto máximo entre mayo y julio (+3–5% sobre el invierno). Los suburbios con buena conectividad siguen creciendo más rápido que los centros urbanos.",
+        "fact_2_title": "🏦 Impacto de las Tasas Hipotecarias",
+        "fact_2_text": "Cada caída del 1% en la tasa hipotecaria fija a 30 años aumenta el poder adquisitivo en un ~10%, impulsando la demanda y el valor de las propiedades.",
+        "fact_3_title": "🏡 ¿Qué Aporta Más Valor?",
+        "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo.",
+        "stat_avg": "🇺🇸 Promedio en EE. UU.",
+        "stat_max": "💎 Más caro",
+        "stat_min": "🏷️ Más asequible"
     },
     "Deutsch": {
         "title": "🏡 US-Immobilienbewertungsrechner",
@@ -259,7 +201,20 @@ translations = {
         "city_2": "Nördliche Randbezirke",
         "city_3": "Östlicher Vorortsektor",
         "city_4": "Südliches Industriezentrum",
-        "hover_price_str": "Preis"
+        "hover_price_str": "Preis",
+        "lbl_age": "Alter der Immobilie (Jahre):",
+        "age_placeholder": "Optional",
+        "age_help": "Manchmal sind die neuesten Häuser nicht die teuersten (historischer Charme oder etablierte Lagen können höher bewertet werden).",
+        "insights_title": "📊 US-Immobilienmarkt: Trends & Wissenswertes",
+        "fact_1_title": "📈 Preisentwicklung & Saisonalität",
+        "fact_1_text": "US-Immobilienpreise erreichen zwischen Mai und Juli oft ihren Höchststand (+3–5 % gegenüber dem Winter). Vororte mit guter Infrastruktur wachsen weiterhin schneller als Innenstädte.",
+        "fact_2_title": "🏦 Einfluss der Hypothekenzinsen",
+        "fact_2_text": "Jeder Rückgang der 30-jährigen Festzins-Hypothek um 1 % steigert die Kaufkraft der Käufer um rund 10 % und sorgt für steigende Immobilienwerte.",
+        "fact_3_title": "🏡 Was steigert den Wert am meisten?",
+        "fact_3_text": "Wohnfläche und Anzahl der Badezimmer haben das größte Gewicht bei der Bewertung. Küchenrenovierungen und moderne Klimaanlagen (HVAC) amortisieren sich zu 70–80 %.",
+        "stat_avg": "🇺🇸 US-Durchschnitt",
+        "stat_max": "💎 Am teuersten",
+        "stat_min": "🏷️ Am günstigsten"
     },
     "中文": {
         "title": "🏡 美国房地产估值计算器",
@@ -292,9 +247,23 @@ translations = {
         "city_2": "北部县郊",
         "city_3": "东部郊区板块",
         "city_4": "南部工业枢纽",
-        "hover_price_str": "价格"
+        "hover_price_str": "价格",
+        "lbl_age": "房龄（年）：",
+        "age_placeholder": "选填",
+        "age_help": "有时最新的房子并不是最贵的（历史底蕴、核心地段或成熟社区往往价值更高）。",
+        "insights_title": "📊 美国房地产市场洞察与趣闻",
+        "fact_1_title": "📈 价格走势与季节性规律",
+        "fact_1_text": "美国房价通常在每年5月至7月达到峰值（比冬季高出3%–5%）。适合远程办公的郊区市场涨幅持续领跑传统市中心。",
+        "fact_2_title": "🏦 房贷利率的影响",
+        "fact_2_text": "30年期固定房贷利率每下降1%，购房者的购买力平均提升约10%，从而直接推高房价与市场需求。",
+        "fact_3_title": "🏡 哪些因素最能提升房产价值？",
+        "fact_3_text": "在美国，实用居住面积和浴室数量在估值中占比最高。厨房翻新和高效节能空调系统（HVAC）通常可收回70%–80%的改造成本。",
+        "stat_avg": "🇺🇸 全美平均",
+        "stat_max": "💎 最高价州",
+        "stat_min": "🏷️ 最实惠州"
     }
 }
+
 
 # Коэффициент перевода: 1 кв. метр = 10.7639 кв. футов
 SQFT_IN_SQM = 10.7639
