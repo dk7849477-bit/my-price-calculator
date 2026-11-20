@@ -285,11 +285,11 @@ is_sqm = (selected_unit == t["unit_sqm"])
 bedrooms = st.number_input(t["lbl_bed"], min_value=0, max_value=10, value=3, step=1)
 bathrooms = st.number_input(t["lbl_bath"], min_value=0.0, max_value=10.0, value=2.0, step=0.5)
 # Поле ввода площади в зависимости от выбранной единицы
-    if is_sqm:
-        area_input = st.number_input(t["lbl_area_sqm"], min_value=10, max_value=2000, value=167, step=5)
+if is_sqm:
+    area_input = st.number_input(t["lbl_area_sqm"], min_value=10, max_value=2000, value=167, step=5)
 sqft = area_input * SQFT_IN_SQM  # Переводим в кв. футы для корректного расчёта модели
-    else:
-        area_input = st.number_input(t["lbl_area_sqft"], min_value=100, max_value=20000, value=1800, step=50)
+else:
+    area_input = st.number_input(t["lbl_area_sqft"], min_value=100, max_value=20000, value=1800, step=50)
 sqft = area_input
 calculate_btn = st.button(t["btn_calc"], type="primary")
 
