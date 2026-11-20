@@ -330,33 +330,34 @@ else:
 st.markdown("---")
 
 # Необязательные спальни и ванные (можно оставить пустыми)
+# Вместо t["age_placeholder"] и t["age_help"] лучше писать так:
 bedrooms = st.number_input(
-    t["lbl_bed"], 
+    t.get("lbl_bed", "Bedrooms:"), 
     min_value=0, 
     max_value=10, 
-    value=None,  # Поле изначально пустое
+    value=None, 
     step=1, 
-    placeholder="Необязательно"
-)
-bathrooms = st.number_input(
-    t["lbl_bath"], 
-    min_value=0.0, 
-    max_value=10.0, 
-    value=None,  # Поле изначально пустое
-    step=0.5, 
-    placeholder="Необязательно"
-)
-property_age = st.number_input(
-    t["lbl_age"],
-    min_value=0,
-    max_value=300,
-    value=None,  # Поле необязательное (изначально пустое)
-    step=1,
-    placeholder=t["age_placeholder"],
-    help=t["age_help"]  # Создаёт интерактивную иконку (?) при наведении
+    placeholder=t.get("age_placeholder", "Optional")
 )
 
-calculate_btn = st.button(t["btn_calc"], type="primary")
+bathrooms = st.number_input(
+    t.get("lbl_bath", "Bathrooms:"), 
+    min_value=0.0, 
+    max_value=10.0, 
+    value=None, 
+    step=0.5, 
+    placeholder=t.get("age_placeholder", "Optional")
+)
+
+property_age = st.number_input(
+    t.get("lbl_age", "Property Age (years):"),
+    min_value=0,
+    max_value=300,
+    value=None,
+    step=1,
+    placeholder=t.get("age_placeholder", "Optional"),
+    help=t.get("age_help", "Sometimes the newest homes are not the most expensive.")
+)
 
 # --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft, property_age=None):
