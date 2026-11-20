@@ -294,7 +294,7 @@ sqft = area_input
 calculate_btn = st.button(t["btn_calc"], type="primary")
 
 if "calculated" not in st.session_state:
-st.session_state.calculated = False
+    st.session_state.calculated = False
 
 #--- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 
