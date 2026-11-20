@@ -261,13 +261,13 @@ state_data = {
 }
 
 SQFT_IN_SQM = 10.7639
---- ШАПКА ИНТЕРФЕЙСА ---
+#--- ШАПКА ИНТЕРФЕЙСА ---
 
 st.title(t["title"])
 st.subheader(t["subtitle"])
 st.info(t["info"])
 
---- МАКЕТ СОДЕРЖИМОГО (САЙДБАР УПРАВЛЕНИЯ) ---
+#--- МАКЕТ СОДЕРЖИМОГО (САЙДБАР УПРАВЛЕНИЯ) ---
 
 with st.sidebar:
 st.header("⚙️ Параметры / Settings")
@@ -298,7 +298,7 @@ calculate_btn = st.button(t["btn_calc"], type="primary")
 if "calculated" not in st.session_state:
 st.session_state.calculated = False
 
---- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
+#--- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 
 def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
 api_key = "YOUR_REAL_API_KEY"
@@ -330,7 +330,7 @@ st.session_state.price = price
 st.session_state.rate_sqft = rate
 st.session_state.calculated = True
 
---- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
+#--- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
 
 if st.session_state.calculated:
 # Актуальная базовая ставка выбранного штата (обновляется мгновенно при смене единицы измерения)
@@ -355,7 +355,7 @@ meta_col1, meta_col2 = st.columns(2)
 meta_col1.write(f"{t['status']} {t['status_val']}")
 meta_col2.write(f"{t['live']} {t['live_val']}")
 
---- РАБОТА С ГИС КАРТОЙ (PLOTLY) ---
+#--- РАБОТА С ГИС КАРТОЙ (PLOTLY) ---
 
 st.markdown(f"### {t['map_title']}")
 state_cities = {
