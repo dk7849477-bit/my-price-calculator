@@ -422,40 +422,33 @@ def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft, proper
             
     bed_bonus = (bedrooms * 15000) if bedrooms is not None else 0
     bath_bonus = (bathrooms * 20000) if bathrooms is not None else 0
-    
     calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
     
     # Учёт возраста жилья (если указан)
     if property_age is not None:
         if property_age <= 5:
-            calculated_price *= 1.05       # Новостройки (+5%)
-        elif property_age <= 50:
-            # Небольшой износ, но не ниже -10%
-            calculated_price *= max(0.90, 1.0 - (property_age * 0.002))
-        elif property_age > 80:
-            calculated_price *= 1.08       # Историческая недвижимость (+8%)
+            calculated_price *= 1.08       # Новостройки (+8%)
+        elif property_age <= 20:
+            calculated_price *= 1.00       # 6–20 лет (базовая цена)
+        elif property_age <= 60:
+            calculated_price *= 0.90       # 21–60 лет (-10%)
+        elif property_age <= 90:
+            calculated_price *= 1.04       # 61–90 лет (+4%)
+        else:
+            calculated_price *= 1.12       # Исторический дом 90+ лет (+12%)
 
     random.seed(zip_code) 
     calculated_price *= random.uniform(0.92, 1.08)
     
     return int(calculated_price), base_rate
 
-    # Математическая модель-заглушка (учитывает спальни/ванные, только если они введены)
-    bed_bonus = (bedrooms * 15000) if bedrooms is not None else 0
-    bath_bonus = (bathrooms * 20000) if bathrooms is not None else 0
-    
-    calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
-    random.seed(zip_code) 
-    calculated_price *= random.uniform(0.92, 1.08)
-    
-    return int(calculated_price), base_rate
-# Действие по нажатию кнопки
+# Действие по нажатию кнопки (теперь передаём property_age!)
 if calculate_btn:
     with st.spinner(t["spinner"]):
-        price, rate = fetch_valuation_data(selected_state, zip_code, bedrooms, bathrooms, sqft)
-        st.session_state.price = price
-        st.session_state.rate = rate
-        st.session_state.calculated = True
+        price, rate = fetch_valuation_data(selected_state, zip_code, bedrooms, bathrooms, sqft, property_age)
+        st.session_state["price"] = price
+        st.session_state["rate"] = rate
+        st.session_state["calculated"] = True
 
 # --- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
 if st.session_state.get("calculated", False):
