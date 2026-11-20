@@ -66,7 +66,7 @@ translations = {
         "fact_2_title": "🏦 Impacto de las Tasas Hipotecarias",
         "fact_2_text": "Cada caída del 1% en la tasa hipotecaria fija a 30 años aumenta el poder adquisitivo en un ~10%, impulsando la demanda y el valor de las propiedades.",
         "fact_3_title": "🏡 ¿Qué Aporta Más Valor?",
-        "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo."
+        "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo.",
 "stat_avg": "🇺🇸 Promedio en EE. UU.",
 "stat_max": "💎 Más caro",
 "stat_min": "🏷️ Más asequible"
