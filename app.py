@@ -277,31 +277,54 @@ map_style = st.selectbox(t["lbl_style"], ["open-street-map", "carto-positron", "
 st.markdown("---")
 # Переключатель единиц измерения площади
 selected_unit = st.radio(
-t["lbl_unit"],
-[t["unit_sqft"], t["unit_sqm"]],
-horizontal=True
+    t["lbl_unit"],
+    [t["unit_sqft"], t["unit_sqm"]],
+    horizontal=True
 )
 is_sqm = (selected_unit == t["unit_sqm"])
-bedrooms = st.number_input(t["lbl_bed"], min_value=0, max_value=10, value=3, step=1)
-bathrooms = st.number_input(t["lbl_bath"], min_value=0.0, max_value=10.0, value=2.0, step=0.5)
-# Поле ввода площади в зависимости от выбранной единицы
+
+# Поле ввода площади в зависимости от выбранной единицы (исправлено!)
 if is_sqm:
     area_input = st.number_input(t["lbl_area_sqm"], min_value=10, max_value=2000, value=167, step=5)
-    sqft = area_input * SQFT_IN_SQM  # Переводим в кв. футы для корректного расчёта модели
+    sqft = area_input * SQFT_IN_SQM  # Переводим в кв. футы для корректного расчёта
 else:
     area_input = st.number_input(t["lbl_area_sqft"], min_value=100, max_value=20000, value=1800, step=50)
-sqft = area_input
-calculate_btn = st.button(t["btn_calc"], type="primary")
+    sqft = area_input  # Оставляем как есть (ВАЖНО: внутри else, а не снаружи!)
 
-if "calculated" not in st.session_state:
-    st.session_state.calculated = False
+st.markdown("---")
+
+# Необязательные спальни и ванные (можно оставить пустыми)
+bedrooms = st.number_input(
+    t["lbl_bed"], 
+    min_value=0, 
+    max_value=10, 
+    value=None,  # Поле изначально пустое
+    step=1, 
+    placeholder="Необязательно"
+)
+bathrooms = st.number_input(
+    t["lbl_bath"], 
+    min_value=0.0, 
+    max_value=10.0, 
+    value=None,  # Поле изначально пустое
+    step=0.5, 
+    placeholder="Необязательно"
+)
+
+calculate_btn = st.button(t["btn_calc"], type="primary")
 
 # --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
     api_key = "YOUR_REAL_API_KEY"
-    url = f"https://rentcast.io{zip_code}&bedrooms={bedrooms}&bathrooms={bathrooms}&squareFootage={int(sqft)}"
-    headers = {"accept": "application/json", "X-Api-Key": api_key}
     
+    # Формируем URL динамически, добавляя спальни и ванные только если они указаны
+    url = f"https://rentcast.io{zip_code}&squareFootage={int(sqft)}"
+    if bedrooms is not None:
+        url += f"&bedrooms={bedrooms}"
+    if bathrooms is not None:
+        url += f"&bathrooms={bathrooms}"
+        
+    headers = {"accept": "application/json", "X-Api-Key": api_key}
     base_rate = state_data[state_name]["base_sqft"]
     
     if api_key != "YOUR_REAL_API_KEY":
@@ -313,15 +336,15 @@ def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft):
         except Exception:
             pass
             
-    # Математическая модель-заглушка высокого качества
-    bed_bonus = bedrooms * 15000
-    bath_bonus = bathrooms * 20000
+    # Математическая модель-заглушка (учитывает спальни/ванные, только если они введены)
+    bed_bonus = (bedrooms * 15000) if bedrooms is not None else 0
+    bath_bonus = (bathrooms * 20000) if bathrooms is not None else 0
+    
     calculated_price = (sqft * base_rate) + bed_bonus + bath_bonus
     random.seed(zip_code) 
     calculated_price *= random.uniform(0.92, 1.08)
     
     return int(calculated_price), base_rate
-
 # Действие по нажатию кнопки
 if calculate_btn:
     with st.spinner(t["spinner"]):
