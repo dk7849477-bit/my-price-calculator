@@ -270,7 +270,7 @@ st.info(t["info"])
 #--- МАКЕТ СОДЕРЖИМОГО (САЙДБАР УПРАВЛЕНИЯ) ---
 
 with st.sidebar:
-st.header("⚙️ Параметры / Settings")
+st.header("Settings")
 selected_state = st.selectbox(t["lbl_state"], list(state_data.keys()), index=4)
 zip_code = st.text_input(t["lbl_zip"], "90210")
 map_style = st.selectbox(t["lbl_style"], ["open-street-map", "carto-positron", "carto-darkmatter"])
@@ -292,8 +292,6 @@ else:
 area_input = st.number_input(t["lbl_area_sqft"], min_value=100, max_value=20000, value=1800, step=50)
 sqft = area_input
 calculate_btn = st.button(t["btn_calc"], type="primary")
-
-Инициализация переменных сессии
 
 if "calculated" not in st.session_state:
 st.session_state.calculated = False
@@ -321,7 +319,7 @@ random.seed(zip_code)
 calculated_price *= random.uniform(0.92, 1.08)
 return int(calculated_price), base_rate
 
-Действие по нажатию кнопки
+#Действие по нажатию кнопки
 
 if calculate_btn:
 with st.spinner(t["spinner"]):
