@@ -41,7 +41,10 @@ translations = {
         "fact_2_text": "Every 1% drop in 30-year fixed mortgage rates typically increases buyer purchasing power by ~10%, driving higher demand and faster price growth in mid-tier states.",
         "fact_3_title": "🏡 What Adds the Most Value?",
         "fact_3_text": "In the US market, usable square footage and bathroom count carry the highest valuation weight. Kitchen remodels and energy-efficient HVAC systems return up to 70–80% of their cost."
-    },
+"stat_avg": "🇺🇸 US Average",
+"stat_max": "💎 Highest",
+"stat_min": "🏷️ Most Affordable"
+   },
     "Русский": {
         # ... ваши старые ключи ...
         "insights_title": "📊 Аналитика и интересные факты о жилье в США",
@@ -51,6 +54,9 @@ translations = {
         "fact_2_text": "Снижение ставки по 30-летней фиксированной ипотеке всего на 1% увеличивает покупательную способность на ~10%, что напрямую подталкивает рыночную стоимость домов вверх.",
         "fact_3_title": "🏡 Что сильнее всего повышает цену?",
         "fact_3_text": "В США ключевой фактор оценки — жилая площадь (без учёта подвалов и гаражей) и число ванных комнат. Обновление кухни и системы климат-контроля окупается на 70–80%."
+"stat_avg": "🇺🇸 Средняя по США",
+"stat_max": "💎 Самый дорогой",
+"stat_min": "🏷️ Самый доступный"
     },
     "Español": {
         # ... ваши старые ключи ...
@@ -61,6 +67,9 @@ translations = {
         "fact_2_text": "Cada caída del 1% en la tasa hipotecaria fija a 30 años aumenta el poder adquisitivo en un ~10%, impulsando la demanda y el valor de las propiedades.",
         "fact_3_title": "🏡 ¿Qué Aporta Más Valor?",
         "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo."
+"stat_avg": "🇺🇸 Promedio en EE. UU.",
+"stat_max": "💎 Más caro",
+"stat_min": "🏷️ Más asequible"
     },
     "Deutsch": {
         # ... ваши старые ключи ...
@@ -71,6 +80,9 @@ translations = {
         "fact_2_text": "Jeder Rückgang der 30-jährigen Festzins-Hypothek um 1 % steigert die Kaufkraft der Käufer um rund 10 % und sorgt für steigende Immobilienwerte.",
         "fact_3_title": "🏡 Was steigert den Wert am meisten?",
         "fact_3_text": "Wohnfläche und Anzahl der Badezimmer haben das größte Gewicht bei der Bewertung. Küchenrenovierungen und moderne Klimaanlagen (HVAC) amortisieren sich zu 70–80 %."
+"stat_avg": "🇺🇸 US-Durchschnitt",
+"stat_max": "💎 Am teuersten",
+"stat_min": "🏷️ Am günstigsten"
     },
     "中文": {
         # ... ваши старые ключи ...
@@ -81,6 +93,9 @@ translations = {
         "fact_2_text": "30年期固定房贷利率每下降1%，购房者的购买力平均提升约10%，从而直接推高房价与市场需求。",
         "fact_3_title": "🏡 哪些因素最能提升房产价值？",
         "fact_3_text": "在美国，实用居住面积和浴室数量在估值中占比最高。厨房翻新和高效节能空调系统（HVAC）通常可收回70%–80%的改造成本。"
+"stat_avg": "🇺🇸 全美平均",
+"stat_max": "💎 最高价州",
+"stat_min": "🏷️ 最实惠州"
     },
 
         "English": {
