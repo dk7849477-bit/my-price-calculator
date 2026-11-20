@@ -346,6 +346,15 @@ bathrooms = st.number_input(
     step=0.5, 
     placeholder="Необязательно"
 )
+property_age = st.number_input(
+    t["lbl_age"],
+    min_value=0,
+    max_value=300,
+    value=None,  # Поле необязательное (изначально пустое)
+    step=1,
+    placeholder=t["age_placeholder"],
+    help=t["age_help"]  # Создаёт интерактивную иконку (?) при наведении
+)
 
 calculate_btn = st.button(t["btn_calc"], type="primary")
 
