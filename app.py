@@ -270,7 +270,7 @@ st.info(t["info"])
 #--- МАКЕТ СОДЕРЖИМОГО (САЙДБАР УПРАВЛЕНИЯ) ---
 
 with st.sidebar:
-st.header("Settings")
+    st.header("Settings")
 selected_state = st.selectbox(t["lbl_state"], list(state_data.keys()), index=4)
 zip_code = st.text_input(t["lbl_zip"], "90210")
 map_style = st.selectbox(t["lbl_style"], ["open-street-map", "carto-positron", "carto-darkmatter"])
