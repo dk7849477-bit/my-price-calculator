@@ -362,7 +362,7 @@ property_age = st.number_input(
 calculate_btn = st.button(t.get("btn_calc", "Calculate Market Value"), type="primary")
 
 if calculate_btn:
-
+    st.session_state.calculated = False
 # --- ЛОГИКА ИНТЕГРАЦИИ RENTCAST API И СИНТЕТИЧЕСКОГО РАСЧЕТА ---
 def fetch_valuation_data(state_name, zip_code, bedrooms, bathrooms, sqft, property_age=None):
     api_key = "YOUR_REAL_API_KEY"
