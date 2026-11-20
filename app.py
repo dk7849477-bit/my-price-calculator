@@ -11,7 +11,12 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# ✅ ВСТАВИТЬ СЮДА (заменив .calculated на ["calculated"]):
+if "calculated" not in st.session_state:
+    st.session_state["calculated"] = False
+
 st.components.v1.html(
+
     """
     <script>
         // Добавляем верификацию Telderi
@@ -354,7 +359,8 @@ if calculate_btn:
         st.session_state.calculated = True
 
 # --- ВЫВОД РЕЗУЛЬТАТОВ И ОТРЕСОВКА ГИС ---
-if st.session_state.calculated:
+if st.session_state.get("calculated", False):
+
     current_base_sqft = state_data[selected_state]["base_sqft"]
     
     if is_sqm:
