@@ -32,6 +32,37 @@ st.components.v1.html(
 
 # --- ПОЛНЫЙ СЛОВАРЬ МУЛЬТИЯЗЫЧНОСТИ (5 ЯЗЫКОВ) ---
 translations = {
+        "English": {
+        # ... ваши старые ключи ...
+        "lbl_age": "Property Age (years):",
+        "age_placeholder": "Optional",
+        "age_help": "Sometimes the newest homes are not the most expensive (historic charm, prime location, or mature neighborhoods can value higher)."
+    },
+    "Русский": {
+        # ... ваши старые ключи ...
+        "lbl_age": "Возраст жилья (лет):",
+        "age_placeholder": "Необязательно",
+        "age_help": "Порой самые молодые дома не самые дорогие (историческая ценность, престижный район или развитая инфраструктура могут цениться выше)."
+    },
+    "Español": {
+        # ... ваши старые ключи ...
+        "lbl_age": "Antigüedad de la propiedad (años):",
+        "age_placeholder": "Opcional",
+        "age_help": "A veces las casas más nuevas no son las más caras (el valor histórico o la ubicación consolidada pueden cotizarse más alto)."
+    },
+    "Deutsch": {
+        # ... ваши старые ключи ...
+        "lbl_age": "Alter der Immobilie (Jahre):",
+        "age_placeholder": "Optional",
+        "age_help": "Manchmal sind die neuesten Häuser nicht die teuersten (historischer Charme oder etablierte Lagen können höher bewertet werden)."
+    },
+    "中文": {
+        # ... ваши старые ключи ...
+        "lbl_age": "房龄（年）：",
+        "age_placeholder": "选填",
+        "age_help": "有时最新的房子并不是最贵的（历史底蕴、核心地段或成熟社区往往价值更高）。"
+    }
+
     "English": {
         "title": "🏡 US Real Estate Valuation Calculator",
         "subtitle": "Market Value Estimate & Smart GIS City Map",
