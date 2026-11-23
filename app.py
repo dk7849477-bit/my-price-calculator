@@ -135,7 +135,20 @@ translations = {
         "fact_3_text": "В США ключевой фактор оценки — жилая площадь (без учёта подвалов и гаражей) и число ванных комнат. Обновление кухни и системы климат-контроля окупается на 70–80%.",
         "stat_avg": "🇺🇸 Средняя по США",
         "stat_max": "💎 Самый дорогой",
-        "stat_min": "🏷️ Самый доступный"
+        "stat_min": "🏷️ Самый доступный",
+        "history_title": "📜 История цен на жильё в США за 60+ лет (1963–2026)",
+        "history_subtitle": "Медианная стоимость проданных домов в США по десятилетиям (данные US Census Bureau / FRED):",
+        "history_chart_title": "Динамика медианной цены дома в США ($ USD)",
+        "history_axis_x": "Год",
+        "history_axis_y": "Медианная цена ($)",
+        "history_milestones": """
+        * **1960–1970-е (Бум пригородов и инфляция):** В 1963 году средний дом в США стоил всего **$18 000**. Высокая инфляция конца 70-х подняла цену выше **$62 000** к 1979 году.
+        * **1980-е (Ипотека под 18%):** Несмотря на рекордные ставки по ипотеке (пик 18,6% в 1981 г.), поколение беби-бумеров обеспечило рост цен до **$120 000** к 1989 году.
+        * **1990–2006 (Кредитный бум и пузырь):** Дешёвые кредиты и мягкие требования к заёмщикам разогнали рынок до предкризисного пика в **$247 000** в начале 2007 года.
+        * **2008–2012 (Великая рецессия):** Ипотечный кризис обрушил медианные цены на ~15–20% по стране, достигнув дна около **$208 000** в 2009 году.
+        * **2020–2026 (Постпандемийный скачок):** Переход на удалённую работу, дефицит новостроек и околонулевые ставки 2020–2021 гг. вызвали рекордный взлёт цен, закрепившихся выше **$420 000+**.
+    """
+
     },
     "Español": {
         "title": "🏡 Calculadora de Valoración de Bienes Raíces en EE. UU.",
@@ -181,7 +194,19 @@ translations = {
         "fact_3_text": "El área habitable y el número de baños tienen el mayor peso en la tasación. Las remodelaciones de cocina y sistemas HVAC eficientes recuperan entre el 70% y el 80% de su costo.",
         "stat_avg": "🇺🇸 Promedio en EE. UU.",
         "stat_max": "💎 Más caro",
-        "stat_min": "🏷️ Más asequible"
+        "stat_min": "🏷️ Más asequible",
+        "history_title": "📜 Más de 60 años de historia de precios en EE. UU. (1963–2026)",
+        "history_subtitle": "Precio medio de venta de viviendas en Estados Unidos (datos de US Census Bureau / FRED):",
+        "history_chart_title": "Evolución del Precio Medio de la Vivienda en EE. UU. ($ USD)",
+        "history_axis_x": "Año",
+        "history_axis_y": "Precio Medio ($)",
+        "history_milestones": """
+        * **1960–1970 (Auge suburbano):** En 1963, una casa media costaba **$18,000**. La inflación de finales de los 70 elevó los precios por encima de **$62,000** en 1979.
+        * **1980 (Hipotecas al 18%):** A pesar de tasas récord del 18.6% en 1981, la demanda de los baby boomers llevó los precios a **$120,000** en 1989.
+        * **1990–2006 (La burbuja inmobiliaria):** El crédito fácil impulsó un fuerte crecimiento hasta alcanzar un máximo de **$247,000** a principios de 2007.
+        * **2008–2012 (La Gran Recesión):** El colapso financiero provocó una caída del ~15–20%, tocando fondo cerca de **$208,000** en 2009.
+        * **2020–2026 (Auge pospandemia):** El teletrabajo y la escasez de oferta dispararon los precios más rápido que nunca, estabilizándose por encima de **$420,000+**.
+    """
     },
     "Deutsch": {
         "title": "🏡 US-Immobilienbewertungsrechner",
@@ -227,7 +252,20 @@ translations = {
         "fact_3_text": "Wohnfläche und Anzahl der Badezimmer haben das größte Gewicht bei der Bewertung. Küchenrenovierungen und moderne Klimaanlagen (HVAC) amortisieren sich zu 70–80 %.",
         "stat_avg": "🇺🇸 US-Durchschnitt",
         "stat_max": "💎 Am teuersten",
-        "stat_min": "🏷️ Am günstigsten"
+        "stat_min": "🏷️ Am günstigsten",
+        "history_title": "📜 Über 60 Jahre US-Immobilienpreisgeschichte (1963–2026)",
+        "history_subtitle": "Medianer Verkaufspreis von Häusern in den USA (Daten: US Census Bureau / FRED):",
+        "history_chart_title": "Entwicklung der US-Median-Immobilienpreise ($ USD)",
+        "history_axis_x": "Jahr",
+        "history_axis_y": "Medianpreis ($)",
+        "history_milestones": """
+        * **1960er–1970er (Vorort-Boom):** 1963 kostete ein durchschnittliches US-Haus nur **$18.000**. Die Inflation Ende der 70er trieb den Preis bis 1979 auf über **$62.000**.
+        * **1980er (18 % Hypothekenzinsen):** Trotz Rekordzinsen von 18,6 % (1981) stiegen die Preise durch die Babyboomer-Generation bis 1989 auf **$120.000**.
+        * **1990er–2006 (Immobilienblase):** Lockere Kreditvergaben führten zu einem starken Anstieg bis auf **$247.000** Anfang 2007.
+        * **2008–2012 (Finanzkrise):** Der Crash ließ die Preise landesweit um ~15–20 % auf rund **$208.000** (2009) fallen.
+        * **2020–2026 (Post-Pandemie-Anstieg):** Homeoffice und Wohnungsmangel lösten den schnellsten Preissprung der Geschichte aus – auf über **$420.000+**.
+    """
+
     },
     "中文": {
         "title": "🏡 美国房地产估值计算器",
@@ -273,7 +311,20 @@ translations = {
         "fact_3_text": "在美国，实用居住面积和浴室数量在估值中占比最高。厨房翻新和高效节能空调系统（HVAC）通常可收回70%–80%的改造成本。",
         "stat_avg": "🇺🇸 全美平均",
         "stat_max": "💎 最高价州",
-        "stat_min": "🏷️ 最实惠州"
+        "stat_min": "🏷️ 最实惠州",
+        "history_title": "📜 美国房价60余年真实历史走势 (1963–2026)",
+        "history_subtitle": "美国房屋销售中位价历史数据（来源：美国人口普查局 / FRED）：",
+        "history_chart_title": "美国房屋中位价演变趋势 ($ USD)",
+        "history_axis_x": "年份",
+        "history_axis_y": "中位价格 ($)",
+        "history_milestones": """
+        * **1960–1970年代（郊区化与通胀）：** 1963年美国房屋中位价仅为 **$18,000**。70年代末的高通胀推动房价在1979年突破 **$62,000**。
+        * **1980年代（18%高房贷利率）：** 尽管1981年房贷利率高达18.6%，但“婴儿潮”一代的购房需求仍推动房价在1989年涨至 **$120,000**。
+        * **1990–2006年（信贷扩张与泡沫）：** 低利率和宽松信贷促使房价飙升，于2007年初达到 **$247,000** 的阶段性高点。
+        * **2008–2012年（次贷危机与大衰退）：** 金融危机导致全美房价下跌约15–20%，2009年触底至 **$208,000** 左右。
+        * **2020–2026年（疫情后暴涨）：** 远程办公普及、房源短缺及2020–2021年超低利率引发史上最快涨幅，近年稳定在 **$420,000+** 以上。
+    """
+
     }
 }
 
