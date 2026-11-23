@@ -76,7 +76,7 @@ translations = {
         "fact_3_text": "In the US market, usable square footage and bathroom count carry the highest valuation weight. Kitchen remodels and energy-efficient HVAC systems return up to 70–80% of their cost.",
         "stat_avg": "🇺🇸 US Average",
         "stat_max": "💎 Highest",
-        "stat_min": "🏷️ Most Affordable"
+        "stat_min": "🏷️ Most Affordable",
         "history_title": "📜 60+ Years of US Housing Price History (1963–2026)",
         "history_subtitle": "Median sales price of houses sold in the United States (US Census Bureau / FRED data):",
         "history_chart_title": "US Median Home Price Evolution ($ USD)",
