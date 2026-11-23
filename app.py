@@ -77,6 +77,19 @@ translations = {
         "stat_avg": "🇺🇸 US Average",
         "stat_max": "💎 Highest",
         "stat_min": "🏷️ Most Affordable"
+        "history_title": "📜 60+ Years of US Housing Price History (1963–2026)",
+        "history_subtitle": "Median sales price of houses sold in the United States (US Census Bureau / FRED data):",
+        "history_chart_title": "US Median Home Price Evolution ($ USD)",
+        "history_axis_x": "Year",
+        "history_axis_y": "Median Price ($)",
+        "history_milestones": """
+        * **1960s–1970s (The Suburban Boom):** In 1963, the median US home cost just **$18,000**. High inflation in the late 1970s pushed prices above **$62,000** by 1979.
+        * **1980s (18% Mortgage Rates):** Despite record-high mortgage rates peaking at 18.6% in 1981, baby boomers entering the market kept prices rising steadily to **  $120,000** by 1989.
+        * **1990s–2006 (The Dot-Com & Subprime Bubble):** Low interest rates and relaxed lending standards fueled a massive surge, peaking at **$247,000** in early 2007.
+        * **2008–2012 (The Great Recession):** The housing crash caused median prices to drop by ~15–20% nationwide, bottoming out around **$208,000** in 2009.
+        * **2020–2026 (Post-Pandemic Surge):** Remote work, supply shortages, and ultra-low 2020–2021 rates triggered the fastest price jump in history, stabilizing above **$420,000+** in the mid-2020s.
+    """
+
     },
     "Русский": {
         "title": "🏡 Калькулятор стоимости недвижимости в США",
@@ -622,4 +635,41 @@ with fact_col2:
 
 with fact_col3:
     st.info(f"**{t.get('fact_3_title', '🏡 Value Drivers')}**\n\n{t.get('fact_3_text', '')}")
+# --- БЛОК ИСТОРИИ ЦЕН НА НЕДВИЖИМОСТЬ США (1963–2026) ---
+st.markdown("---")
+st.markdown(f"### {t['history_title']}")
+st.caption(t["history_subtitle"])
+
+# Реальные исторические данные US Census Bureau (Median Sales Price of Houses Sold)
+history_df = pd.DataFrame({
+    "Year":,
+    "Price": [18000, 23400, 39300, 64600, 84300, 122900, 133900, 169000, 247900, 208400, 296400, 329000, 442600, 420800, 435000]
+})
+
+hist_col1, hist_col2 = st.columns([1.3, 1])
+
+with hist_col1:
+    fig_hist = px.area(
+        history_df,
+        x="Year",
+        y="Price",
+        markers=True,
+        title=t["history_chart_title"],
+        labels={"Year": t["history_axis_x"], "Price": t["history_axis_y"]}
+    )
+    fig_hist.update_traces(
+        line_color="#FF4B4B",
+        fillcolor="rgba(255, 75, 75, 0.15)",
+        hovertemplate="<b>%{x}</b><br>$%{y:,}<extra></extra>"
+    )
+    fig_hist.update_layout(
+        height=380,
+        margin={"r": 10, "t": 40, "l": 10, "b": 10},
+        yaxis_tickprefix="$",
+        yaxis_tickformat=","
+    )
+    st.plotly_chart(fig_hist, use_container_width=True)
+
+with hist_col2:
+    st.markdown(t["history_milestones"])
 
